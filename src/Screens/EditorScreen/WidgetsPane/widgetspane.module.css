@@ -1,0 +1,9 @@
+.widgetspane {
+    width: 400px;
+    height: 100%;
+    background-color: rgb(255, 255, 255);
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+   
+}

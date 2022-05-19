@@ -1,0 +1,12 @@
+.editor {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height:calc(100vh - 50px);
+   
+}
+
+.mainContainer {
+    display: flex;
+    height: calc(100vh - 50px);
+}

@@ -1,0 +1,14 @@
+.editingcanvas {
+    width : 100%;
+    height: calc(100vh - 50px);
+    background-color: rgb(238, 238, 238);
+    box-sizing: border-box;
+    padding: 10px;
+}
+
+.canvas {
+    height: 100%;
+    width: 100%;
+    background-color: rgb(255, 255, 255);
+    
+}
