@@ -1,43 +1,42 @@
-import { Canvas } from "./Canvas";
-import { Widget } from "./Widget";
 
-function EditorModel() {
-    this.currentData = {}
+export function EditorModel() {
+  var longPressDuration = 0;
+  
+  this.widgets = [];
 
-    this.canvas = new Canvas(this)
+  this.currentData = {};
+  this.currentDraggingElement = null;
 
-    this.fromPallette = true;
 
-    this.widgets = []
+  this.setLongPressDuration = (duration) => (longPressDuration = duration);
+  this.getLongPressDuration = () => longPressDuration;
 
-    this.addWidget = (widget) => {
-        this.widgets.push(widget)
+  this.addWidget = (widget) => {
+    this.widgets.push(widget);
+  };
+
+  this.removeWidget = (widget) => {
+    this.widgets.splice(this.widgets.indexOf(widget), 1);
+  };
+
+  this.addWidgetFromPallette = (widget) => {
+    const pallette = this.currentData;
+    widget.tag = pallette.tag;
+    widget.uid = pallette.uid;
+    widget.attrs = { ...pallette.attrs };
+    widget.debugAttrs = { ...pallette.debugAttrs };
+    widget.isViewGroup = pallette.isViewGroup;
+    widget.content = pallette.content;
+    widget.isMultiChilded = pallette.isMultiChilded;
+    this.addWidget(widget);
+  };
+
+  this.renderEelements = (canvas) => {
+    canvas.innerHTML = "";
+    for (let wid of this.widgets) {
+      canvas.appendChild(wid.render());
     }
-
-    this.removeWidget = (widget) => {
-        this.widgets.splice(this.widgets.indexOf(widget) ,  1);
-    }
-
-    this.addWidgetFromPallette = () => {
-       const pallette = this.currentData
-       const widget = new Widget(this)
-        widget.tag = pallette.tag
-        widget.uid = pallette.uid
-        widget.attrs = {...pallette.attrs}
-        widget.debugAttrs = {...pallette.debugAttrs}
-        widget.isViewGroup = pallette.isViewGroup
-        widget.content = pallette.content
-        // .isMultiChilded = pallette.isMultiChilded;
-        this.addWidget(widget)
-    }
-
-    this.renderEelements = (canvas) => { 
-        canvas.innerHTML = "";
-        for(let wid of this.widgets) {
-            canvas.appendChild(wid.render())
-        }
-    }
-    
+  };
 }
 
-export const editor = new EditorModel();
+

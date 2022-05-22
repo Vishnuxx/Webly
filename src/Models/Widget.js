@@ -1,7 +1,7 @@
-import { Utils } from "./Utils";
 
 export function Widget(editormodel) {
   const editor = editormodel;
+  var widget = null
   this.icon = "";
   this.label = "";
   this.uid = "";
@@ -18,30 +18,19 @@ export function Widget(editormodel) {
   this.parent = null;
   this.index = 0;
 
-  this.render = () => {
-    const widget = document.createElement(this.tag);
-    for (let key in this.attrs) {
-      widget.setAttribute(key, this.attrs[key]);
-    }
-    for (let key in this.debugAttrs) {
-      widget.setAttribute(key, this.debugAttrs[key]);
-    }
+  this.select = () => {
+    // if (this.classList.contains(style.highlightWidget) !== true) {
+    //   widget.classList.add(style.highlightWidget);
+    // }
+  }
 
-    widget.innerHTML = this.content;
+  this.unselect = () => {
 
-    if (this.isViewGroup === true && this.isMultichilded === true) {
-      //Multichilded viewgroups
-      this.children.map((elem) => widget.children.push(widget));
-    } else if (this.isViewgroup === true && this.isMultichilded === false) {
-      //SingleChilded Viewgroup
-      this.children.map((elem) => widget.children.push(widget));
-    } else {
-      //Standalone Views
-      this.children.map((elem) => widget.children.push(widget));
-    }
+  }
 
-    return widget;
-  };
+  this.canAcceptChild = () => {
+    return this.isViewgroup && (this.isMultichilded || this.children.length !== 0)
+  }
 
   this.addChild = (child) => {
     editor.addWidget(child);
@@ -77,5 +66,44 @@ export function Widget(editormodel) {
     } else {
       destinationWidget.addChild(widget);
     }
+  };
+
+  this.create = (data) => {
+    // const data = editormodel.currentData;
+    this.tag = data.tag;
+    this.isViewgroup = data.isViewGroup;
+    this.isMultichilded = data.isMultichilded;
+    this.attrs = { ...data.attrs };
+    this.debugAttrs = { ...data.debugAttrs };
+    this.content = data.content;
+    this.styles = { ...data.styles };
+    this.pseudoclass = { ...data.pseudoclass };
+    this.children = []; // data.children;
+    this.parent = data.parent;
+    widget = document.createElement(this.tag);
+    for (let key in this.attrs) {
+      widget.setAttribute(key, this.attrs[key]);
+    }
+    for (let key in this.styles) {
+      widget.style[key] = this.styles[key];
+    }
+    for (let key in this.debugAttrs) {
+      widget.setAttribute(key, this.debugAttrs[key]);
+    }
+
+    widget.innerHTML = this.content;
+
+    if (this.isViewGroup === true && this.isMultichilded === true) {
+      //Multichilded viewgroups
+      this.children.map((elem) => widget.children.push(widget));
+    } else if (this.isViewgroup === true && this.isMultichilded === false) {
+      //SingleChilded Viewgroup
+      this.children.map((elem) => widget.children.push(widget));
+    } else {
+      //Standalone Views
+      this.children.map((elem) => widget.children.push(widget));
+    }
+
+    return widget;
   };
 }

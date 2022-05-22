@@ -1,64 +1,29 @@
+
 export const widgetlist = [
+  {
+    type: "title",
+    label: "Basic",
+  },
   {
     type: "widget",
     label: "Div",
-    icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
+    key: "div",
+    icon: "https://img.icons8.com/fluency-systems-filled/48/000000/rectangle.png",
   },
   {
     type: "widget",
     label: "Button",
-    icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
-    data: {
-      uid: "",
-      class: "",
-      id: "",
-      tag: "button",
-      attrs: {
-        contenteditable: "true",
-      },
-      debugAttrs: {
-        disabled: "true",
-      },
-      styles: {},
-      content: "Hello",
-      isViewGroup: true,
-      isMultiChilded: true,
-      children: [],
-    },
+    key: "button",
+    icon: "https://img.icons8.com/ios/50/000000/button2.png",
   },
   {
     type: "widget",
     label: "Input",
+    key: "input",
     icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
-    data: {
-      uid: "",
-      class: "",
-      id: "",
-      tag: "input",
-      attrs: {
-        type: "password",
-        active: false,
-      },
-      styles: {},
-      content: "Hello",
-
-      isViewGroup: false,
-      isMultiChilded: false,
-      children: [],
-    },
   },
   {
     type: "title",
     label: "Advanced",
-  },
-  {
-    type: "widget",
-    label: "Paragraph",
-    icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
-  },
-  {
-    type: "widget",
-    label: "section",
-    icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
   },
 ];

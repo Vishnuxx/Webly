@@ -1,36 +1,60 @@
-import style from "./widgetspane.module.css";
-import { Tablist, Tab, Pane, Paragraph } from "evergreen-ui";
-import { useState } from "react";
-import { WidgetPallette } from "./WidgetPallette/WidgetPallette";
-import { ComponentPallette } from "./ComponentPallette/ComponentPallette";
+import { Image, Pane, Text } from "evergreen-ui";
+import { widgetlist } from "../../../Plugins/widgetList";
+
 export function WidgetsPane(props) {
-    const [selectedIndex, setSelectedIndex] = useState(0);
-    const [tabs] = useState(["Widgets" , "Components"]);
   return (
-    <section className={style.widgetspane}>
-      <Tablist
-        width="100%"
-        minHeight="30px"
-        display="flex"
-        justifyContent="space-evenly"
-      >
-        {tabs.map((tab, index) => (
-          <Tab
-            key={tab}
-            id={tab}
-            onSelect={() => setSelectedIndex(index)}
-            isSelected={index === selectedIndex}
-            aria-controls={`panel-${tab}`}
-          >
-            {tab}
-          </Tab>
-        ))}
-      </Tablist>
-      <Pane padding={10} background="tint1" flex="1" width="100%" overflowY="scroll" overflowX="hidden">
-        <WidgetPallette isActive = {selectedIndex === 0}/>
-        <ComponentPallette isActive = {selectedIndex === 1}/>
-        
-      </Pane>
-    </section>
+    <Pane width="250px" padding='5px'>
+      <WidgetsPallette></WidgetsPallette>
+    </Pane>
+  );
+}
+
+function WidgetsPallette(props) {
+  return (
+    <Pane userSelect="none" display="flex" flexFlow="column" padding="0">
+      {widgetlist.map((elem, index) => {
+        if (elem.type === "widget") {
+          return (
+            <PalletteItem
+              key={index}
+              datakey={elem.key}
+              icon={elem.icon}
+              label={elem.label}
+            ></PalletteItem>
+          );
+        } else {
+          return (
+            <h4 padding="0" margin='0' key={index}>
+              {elem.label}
+            </h4>
+          );
+        }
+      })}
+    </Pane>
+  );
+}
+
+function PalletteItem(props) {
+  return (
+    <Pane
+      datatype="pallette"
+      datakey={props.datakey}
+      userSelect="none"
+      padding="0"
+      background="#efefef"
+      margin="5px"
+      display="flex"
+      alignItems="center"
+    >
+      <Image
+        src={props.icon}
+        width="30px"
+        height="30px"
+        marginRight="2px"
+        draggable={false}
+        pointerEvents="none"
+      ></Image>
+      <Text pointerEvents="none">{props.label}</Text>
+    </Pane>
   );
 }
