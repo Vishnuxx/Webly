@@ -8,19 +8,25 @@ export const widgetlist = [
     type: "widget",
     label: "Div",
     key: "div",
-    icon: "https://img.icons8.com/fluency-systems-filled/48/000000/rectangle.png",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png",
   },
   {
     type: "widget",
     label: "Button",
     key: "button",
-    icon: "https://img.icons8.com/ios/50/000000/button2.png",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png",
   },
   {
     type: "widget",
     label: "Input",
     key: "input",
-    icon: "https://img.icons8.com/color/48/000000/dashboard-layout.png",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png",
+  },
+  {
+    type: "widget",
+    label: "Image",
+    key: "image",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png",
   },
   {
     type: "title",

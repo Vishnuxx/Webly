@@ -1,7 +1,6 @@
-
-import  {Pallette}  from "./Pallette";
+import { Pallette } from "./Pallette";
 import { Utils } from "./Utils";
-import {Widget} from './Widget'
+import { Widget } from "./Widget";
 
 //>> Editing canvas
 export function CanvasModel(editor) {
@@ -13,11 +12,8 @@ export function CanvasModel(editor) {
   var canvasDom = null;
   var canvasDimensions;
   var currentDraggingElement;
-  
 
-
-  
-
+  this.isPointerInsideCanvas = (x, y) => Utils.hitTest(canvasDimensions, x, y);
 
   this.setCanvasView = (canv) => (canvasDom = canv);
   this.getCanvasView = () => canvasDom;
@@ -68,9 +64,9 @@ export function CanvasModel(editor) {
     };
 
     document.onpointermove = (e) => {
-      pointerMove(e)
+      pointerMove(e);
       if (isHolding) {
-        if (Utils.hitTest(canvasDimensions, e.pageX, e.pageY)) {
+        if (this.isPointerInsideCanvas(e.pageX, e.pageY)) {
           dragOver(e);
           if (entered === false) {
             canvasDom.style.outline = "2px solid black";
@@ -92,9 +88,10 @@ export function CanvasModel(editor) {
       if (isHolding === true && entered === true) {
         canvasDom.style.outline = "none";
         drop(e);
-        canvasDom.appendChild(new Widget(editor).create(editor.currentData))
+        canvasDom.appendChild(new Widget(editor).create(editor.currentData));
       }
       isHolding = false;
+      entered = false;
       canvasDom.style.outline = "none";
       dragEnd(e);
       currentDraggingElement = null;

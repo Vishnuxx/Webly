@@ -1,16 +1,18 @@
 .editingcanvas {
     width : 100%;
     height: calc(100vh - 50px);
-    background-color: rgb(238, 238, 238);
+    /* background-color: rgb(238, 238, 238); */
     box-sizing: border-box;
     padding: 10px;
     overflow: scroll;
+ 
 }
 
 .canvas {
     height: 100%;
     width: 100%;
     background-color: rgb(255, 255, 255);
+    box-shadow: 0 0 5px 2px rgb(226, 226, 226);
     display: block;
 }
 

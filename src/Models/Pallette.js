@@ -9,12 +9,24 @@ export  function Pallette(editor) {
 
 
   var palletteData = {
-    div: {},
+    div: {
+      tag: "div",
+      attrs: {},
+      debugAttrs: {},
+      styles: {
+        padding: "10px",
+        height: "30px",
+        backgroundColor: "#e0e0e0",
+        color: "white",
+      },
+      content: "",
+      isViewGroup: true,
+      isMultiChilded: true,
+      acceptableTypes: [],
+      children: [],
+    },
 
     button: {
-      uid: "",
-      class: "",
-      id: "",
       tag: "button",
       attrs: {},
       debugAttrs: {
@@ -24,16 +36,14 @@ export  function Pallette(editor) {
         color: "green",
         padding: "10px",
       },
-      content: "Button",
+      content: "button",
       isViewGroup: true,
       isMultiChilded: true,
+      acceptableTypes: [],
       children: [],
     },
 
     input: {
-      uid: "",
-      class: "",
-      id: "",
       tag: "input",
       attrs: {
         type: "password",
@@ -47,11 +57,30 @@ export  function Pallette(editor) {
         padding: "10px",
       },
       content: "Hello",
-
       isViewGroup: false,
       isMultiChilded: false,
+      acceptableTypes: [],
       children: [],
-      parent: null,
+    },
+
+    image: {
+      tag: "img",
+      attrs: {
+        src: "https://img.icons8.com/color-glass/48/000000/image.png",
+        alt: "",
+      },
+      debugAttrs: {
+        disabled: "true",
+      },
+      styles: {
+        padding: "10px",
+      },
+      content: "Hello",
+      isViewGroup: false,
+      isMultiChilded: false,
+      acceptableTypes: [],
+      children: [],
     },
   };
 }
+

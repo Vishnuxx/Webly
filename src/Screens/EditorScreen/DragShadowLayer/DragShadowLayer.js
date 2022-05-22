@@ -24,14 +24,22 @@ function DragShadow(props) {
   return (
     <div
       style={{
-        position: "absolute",
-        background: "green",
-        width: "200px",
-        height: "30px",
+        display: location.isVisible ? "flex" : "none",
         top: location.y,
         left: location.x,
-        display: location.isVisible ? "block" : "none",
+        position: "absolute",
+        background: "#e9e9e9",
+        width: "100px",
+        height: "30px",
+        borderRadius: "5px",
+        justifyContent: "center",
+        alignItems: "center",
+        opacity: "0.8",
+        border:"1px solid #e0e0e0",
+        color:"grey"
       }}
-    ></div>
+    >
+      Element
+    </div>
   );
 }

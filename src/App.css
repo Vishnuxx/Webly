@@ -3,4 +3,5 @@
   height: 100vh;
   overflow: hidden;
   touch-action: none;
+  background-color: #f8f9fa;
 }

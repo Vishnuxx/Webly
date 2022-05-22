@@ -3,7 +3,7 @@ import { widgetlist } from "../../../Plugins/widgetList";
 
 export function WidgetsPane(props) {
   return (
-    <Pane width="250px" padding='5px'>
+    <Pane width="150px" padding='10px'>
       <WidgetsPallette></WidgetsPallette>
     </Pane>
   );
@@ -41,10 +41,9 @@ function PalletteItem(props) {
       datakey={props.datakey}
       userSelect="none"
       padding="0"
-      background="#efefef"
-      margin="5px"
       display="flex"
       alignItems="center"
+      height="40px"
     >
       <Image
         src={props.icon}

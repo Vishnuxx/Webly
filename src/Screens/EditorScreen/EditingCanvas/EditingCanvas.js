@@ -18,14 +18,24 @@ export function EditingCanvas(props) {
     canvas.initDragControls(
       //PointerDown
       function (e) {
-        const elem = document.elementFromPoint(e.pageX , e.pageY)
-         
+        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
+          const elem = document.elementFromPoint(e.pageX, e.pageY);
+
+          if (elem.classList.contains(style.highlightWidget) !== true) {
+            elem.classList.add(style.highlightWidget);
+          }
+          //detect the variable change
+          if (elem !== previousWidget) {
+            console.log("changed");
+            if (previousWidget !== undefined)
+              previousWidget.classList.remove(style.highlightWidget);
+            previousWidget = elem;
+          }
+        }
       },
 
       //Pointer Move
-      function (e) {
-        
-      },
+      function (e) {},
       //DragStart
       function (e) {
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
@@ -43,6 +53,7 @@ export function EditingCanvas(props) {
       function (e) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
+        if(droparea.canAcceptChild(editor.currentData.tag))
         if (droparea.classList.contains(style.highlightWidget) !== true) {
           droparea.classList.add(style.highlightWidget);
         }
