@@ -1,6 +1,9 @@
+import { nanoid } from "nanoid";
 
-export function EditorModel() {
+export function Editor() {
   var longPressDuration = 0;
+  var plugin;
+  this.setEditorPlugin = (plug) => plugin = plug;
 
   this.widgets = [];
 
@@ -9,11 +12,4 @@ export function EditorModel() {
 
   this.setLongPressDuration = (duration) => (longPressDuration = duration);
   this.getLongPressDuration = () => longPressDuration;
-
-
-  this.createWidget = () => {
-      
-  }
 }
-
-

@@ -53,7 +53,7 @@ export function EditingCanvas(props) {
       function (e) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
-        if(droparea.canAcceptChild(editor.currentData.tag))
+      //  if(droparea.canAcceptChild(editor.currentData.tag))
         if (droparea.classList.contains(style.highlightWidget) !== true) {
           droparea.classList.add(style.highlightWidget);
         }
@@ -67,7 +67,9 @@ export function EditingCanvas(props) {
       },
 
       //Drag Exit
-      function (e) {},
+      function (e) {
+       
+      },
 
       //Drop
       function (e) {},

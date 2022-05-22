@@ -1,33 +1,15 @@
+import { nanoid } from "nanoid";
 
 export function Widget(editormodel) {
   const editor = editormodel;
   var widget = null
-  this.icon = "";
-  this.label = "";
-  this.uid = "";
+  
 
-  this.tag = "div";
-  this.isViewgroup = true;
-  this.isMultichilded = true;
-  this.acceptableTypes = [];
-  this.attrs = {};
-  this.debugAttrs = {};
-  this.content = null;
-  this.styles = {};
-  this.pseudoclass = {};
-  this.children = [];
-  this.parent = null;
-  this.index = 0;
+  // this.select = () => {
+  // }
 
-  this.select = () => {
-    // if (this.classList.contains(style.highlightWidget) !== true) {
-    //   widget.classList.add(style.highlightWidget);
-    // }
-  }
-
-  this.unselect = () => {
-
-  }
+  // this.unselect = () => {
+  // }
 
   this.canAcceptChild = (tag) => {
     return (
@@ -108,15 +90,17 @@ export function Widget(editormodel) {
       this.children.map((data) => {
         widget.appendChild(new Widget(editor).create(data));
       });
+   
+    } else if (this.isViewgroup === true && this.isMultichilded === false) {
+      //SingleChilded Viewgroup
+      this.children.map((data) => widget.children.push(widget));
+    } else {
+      //Standalone Views
+      this.children.map((data) => widget.children.push(widget));
     }
-    // } else if (this.isViewgroup === true && this.isMultichilded === false) {
-    //   //SingleChilded Viewgroup
-    //   this.children.map((data) => widget.children.push(widget));
-    // } else {
-    //   //Standalone Views
-    //   this.children.map((data) => widget.children.push(widget));
-    // }
 
     return widget;
   };
+
+  
 }

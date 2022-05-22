@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useResetRecoilState } from "recoil";
-import { editor } from "../../Models/EditorModel";
+import { editor } from "../../Models/Editor";
 import { dragShadowPositionState } from "../../State/EditorState";
 import { DragShadowLayer } from "./DragShadowLayer/DragShadowLayer";
 import { EditingCanvas } from "./EditingCanvas/EditingCanvas";
