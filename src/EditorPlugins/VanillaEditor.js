@@ -12,7 +12,11 @@ export default class VanillaPlugin extends EditorPluginInterface {
 
  // @override
   createWidget = (palletteData) => {
-    return this._createWidgetElement(this._createWidgetData(palletteData));
+    const collection = {}
+    return {
+        elem: this._createWidgetElement(this._createWidgetData(palletteData , collection )),
+        data: collection
+    }
   }
 
   //updates the attribute of the element at runtime
@@ -63,9 +67,11 @@ export default class VanillaPlugin extends EditorPluginInterface {
       if (data.children.length > 0)
         elem.appendChild(this._createWidgetElement(data.children[0]));
     }
+
+    return elem;
   }
 
-  _createWidgetData = (palletteData) => {
+  _createWidgetData = (palletteData , collection) => {
     const uid = nanoid(16);
 
     const widgetData = {
@@ -82,7 +88,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
       ),
     };
 
-    this._WIDGET_DATAS[uid] = widgetData;
+    collection[uid] = widgetData;
 
     return uid;
   }

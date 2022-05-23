@@ -1,4 +1,4 @@
-import PluginManager from "../EditorPlugins/PluginManager";
+import PluginManager from "./PluginManager";
 import VanillaPlugin from "../EditorPlugins/VanillaEditor";
 import { CanvasModel } from "./CanvasModel";
 import { Editor } from "./Editor";
