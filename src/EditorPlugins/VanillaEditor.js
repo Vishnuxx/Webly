@@ -12,11 +12,17 @@ export default class VanillaPlugin extends EditorPluginInterface {
 
  // @override
   createWidget = (palletteData) => {
-    const collection = {}
-    return {
-        elem: this._createWidgetElement(this._createWidgetData(palletteData , collection )),
-        data: collection
+    
+    const uid = this._createWidgetData(palletteData);
+    const obj =  {
+        elem: this._createWidgetElement(uid),
+        data: {...this._WIDGET_DATAS}
     }
+
+    console.log(obj.elem.getAttribute("dataId"));
+
+    this._WIDGET_DATAS = {};
+    return obj;
   }
 
   //updates the attribute of the element at runtime
@@ -37,7 +43,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
   _createWidgetElement = (uid) => {
     //const uid = createWidgetData(palletteData);
     const data = this._WIDGET_DATAS[uid];
-
+    console.log(this._WIDGET_DATAS)
     const elem = document.createElement(data.tag);
     elem.setAttribute("dataType", "canvaswidget"); // used to check if element is a widget or not
     elem.setAttribute("dataId", uid); //storing the referenceID of the data
@@ -71,7 +77,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
     return elem;
   }
 
-  _createWidgetData = (palletteData , collection) => {
+  _createWidgetData = (palletteData) => {
     const uid = nanoid(16);
 
     const widgetData = {
@@ -88,8 +94,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
       ),
     };
 
-    collection[uid] = widgetData;
-
+    this._WIDGET_DATAS[uid] = widgetData;
     return uid;
   }
 }

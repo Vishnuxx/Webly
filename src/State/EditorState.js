@@ -1,5 +1,4 @@
-import {atom} from 'recoil'
-
+import { atom } from "recoil";
 
 export const dragShadowPositionState = atom({
   key: "dragShadowPositionState",
@@ -13,4 +12,9 @@ export const dragShadowPositionState = atom({
 export const hasEnteredIntoCanvas = atom({
   key: "hasEnteredIntoCanvas",
   default: false,
+});
+
+export const propertyListState = atom({
+  key: "propertyPaneState",
+  default: {},
 });

@@ -4,11 +4,11 @@ export default class PluginManager {
         this.plugins = {};
     }
 
-    registerPlugin({id , name ,  reference}) {
-        if (this.plugins.hasOwnProperty(id)) return;
+    registerPlugin({id , name ,  ref}) {
+        if (this.plugins.hasOwnProperty(id)) throw "This plugin is already installed";
         const plugin = {
             name : name ,
-          ref: reference,
+            ref: ref,
         };
         this.plugins[id] = plugin
     }
@@ -18,7 +18,8 @@ export default class PluginManager {
     }
 
     activateEditorPlugin(uid) {
-        this.setEditorPlugin(this.plugins[uid].ref);
+        this.editor.setEditorPlugin(this.plugins[uid].ref);
+        console.log(this.plugins[uid].ref);
     }
 
 }

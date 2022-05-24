@@ -4,8 +4,12 @@
     /* background-color: rgb(238, 238, 238); */
     box-sizing: border-box;
     padding: 10px;
-    overflow: scroll;
+    
  
+}
+
+div:focus {
+    outline: 5px solid rgb(11, 187, 23);
 }
 
 .canvas {
@@ -14,8 +18,13 @@
     background-color: rgb(255, 255, 255);
     box-shadow: 0 0 5px 2px rgb(226, 226, 226);
     display: block;
+    overflow: scroll;
 }
 
 .highlightWidget {
     outline: 2px solid orangered;
+}
+
+.hover {
+    outline: 1px solid blue;
 }

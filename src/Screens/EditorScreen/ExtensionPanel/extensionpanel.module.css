@@ -3,14 +3,15 @@
   padding: 0;
   height: 40px;
   width: 100vw;
-  background: rgba(0, 123, 255, 1);
-  background: linear-gradient(
+  background-color: white;
+  /* background: rgba(0, 123, 255, 1); */
+  /* background: linear-gradient(
     43deg,
     rgba(0, 255, 156, 1) 0%,
     rgba(0, 123, 255, 1) 100%
-  );
+  ); */
   color: white;
-  box-shadow: 0 0 5px 2px rgb(226, 226, 226);
+  box-shadow: 0px 3px 5px 2px rgb(226, 226, 226);
   /* border-bottom: 1px solid #e0e0e0; */
   display: flex;
   flex-flow: row;

@@ -11,17 +11,9 @@ export function Widget(editormodel) {
   // this.unselect = () => {
   // }
 
-  this.canAcceptChild = (tag) => {
-    return (
-      this.isViewgroup &&
-      (this.isMultichilded || this.children.length !== 0) &&
-      (this.acceptableTypes.includes(tag) || this.acceptableTypes.length === 0)
-    );
-  }
+ 
 
-  this.canAcceptType = (type) => {
-    return;
-  }
+ 
 
   this.addChild = (child) => {
     editor.addWidget(child);
