@@ -1,14 +1,17 @@
 import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { canvas, COMMANDS, editor } from "../../../Models/Models";
-import { dragShadowPositionState, propertyListState } from "../../../State/EditorState";
+import {
+  dragShadowPositionState,
+  propertyListState,
+} from "../../../State/EditorState";
 import style from "./editingcanvas.module.css";
 
 import { AddElementCommand } from "../../../Models/Commands";
 
 export function EditingCanvas(props) {
   const canvasRef = useRef();
-  const updateSidebarList = useSetRecoilState(propertyListState)
+  const updateSidebarList = useSetRecoilState(propertyListState);
 
   useEffect(() => {
     canvas.setCanvasView(canvasRef.current);
@@ -22,29 +25,29 @@ export function EditingCanvas(props) {
     canvas.initDragControls(
       //PointerDown
       function (e) {
-        // if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
-        //   const elem = document.elementFromPoint(e.pageX, e.pageY);
-        // //  updateSidebarList(editor.widgetData[elem.getAttribute("dataId")]["styles"])
-        //   if (elem.classList.contains(style.highlightWidget) !== true) {
-        //     elem.classList.add(style.highlightWidget);
-        //   }
-        //   //detect the variable change
-        //   if (elem !== previousWidget) {
-        //     console.log("changed");
-        //     if (previousWidget !== undefined)
-        //       previousWidget.classList.remove(style.highlightWidget);
-        //     previousWidget = elem;
-        //   }
-        // }
+        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
+          const elem = document.elementFromPoint(e.pageX, e.pageY);
+          //  updateSidebarList(editor.widgetData[elem.getAttribute("dataId")]["styles"])
+          canvas.highlightElement(elem, style.highlightWidget);
+          console.log(canvas.isPointerInsideCanvas(e.pageX, e.pageY));
+          updateSidebarList(
+            editor.getWidgetDataOf(
+              canvas.getCurrentDraggingElement().getAttribute("dataId")
+            )
+          );
+        } else {
+          updateSidebarList(editor.getWidgetDataOf({}));
+        }
       },
 
       //Pointer Move
       function (e) {
-        // if (
-        //   canvas.isPointerInsideCanvas(e.pageX, e.pageY) &&
-        //   canvas.isHolding() === false
-        // ) {
-        //   currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
+        if (
+          canvas.isPointerInsideCanvas(e.pageX, e.pageY) &&
+          canvas.isHolding() === false
+        ) {
+          currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
+          canvas.highlightElement(currentPointingElement, style.hover);
         //   if (
         //     !currentPointingElement.classList.contains(style.hover)
         //   ) {
@@ -57,12 +60,12 @@ export function EditingCanvas(props) {
         //       previousWidget.classList.remove(style.hover);
         //     previousWidget = currentPointingElement;
         //   }
-        // }
+        }
       },
       //DragStart
       function (e) {
-        
         // editor.setCurrentElement(document.elementFromPoint(e.pageX , e.pageY));
+       
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
@@ -80,30 +83,32 @@ export function EditingCanvas(props) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
         if (droparea === canvas.getCanvasView()) {
-          if (droparea.classList.contains(style.highlightWidget) !== true) {
-            droparea.classList.add(style.highlightWidget);
-          }
-          //detect the variable change
-          if (droparea !== previousWidget) {
-            console.log("changed");
-            if (previousWidget !== undefined)
-              previousWidget.classList.remove(style.highlightWidget);
-            previousWidget = droparea;
-          }
+           canvas.highlightElement(droparea, style.highlightWidget);
+          // if (droparea.classList.contains(style.highlightWidget) !== true) {
+          // droparea.classList.add(style.highlightWidget);
+          // }
+          // //detect the variable change
+          // if (droparea !== previousWidget) {
+          //   console.log("changed");
+          //   if (previousWidget !== undefined)
+          //     previousWidget.classList.remove(style.highlightWidget);
+          //   previousWidget = droparea;
+          // }
         } else {
           const canaccept = canvas.canAcceptChild(droparea);
-          console.log(canaccept);
+          // console.log(canaccept);
           if (canaccept) {
-            if (droparea.classList.contains(style.highlightWidget) !== true) {
-              droparea.classList.add(style.highlightWidget);
-            }
-            //detect the variable change
-            if (droparea !== previousWidget) {
-              console.log("changed");
-              if (previousWidget !== undefined)
-                previousWidget.classList.remove(style.highlightWidget);
-              previousWidget = droparea;
-            }
+            // if (droparea.classList.contains(style.highlightWidget) !== true) {
+            // droparea.classList.add(style.highlightWidget);
+            // }
+            // // //detect the variable change
+            // if (droparea !== previousWidget) {
+            //   console.log("changed");
+            //   if (previousWidget !== undefined)
+            //     previousWidget.classList.toggle(style.highlightWidget);
+            //   previousWidget = droparea;
+            // }
+            canvas.highlightElement(droparea, style.highlightWidget);
           }
         }
       },
@@ -113,9 +118,9 @@ export function EditingCanvas(props) {
 
       //Drop
       function (e) {
-        console.log(editor.getCurrentData())
+      
         // COMMANDS.executeCommand("addElement" , {
-        //   target : 
+        //   target :
         // })
         // editor.execute(new AddElementCommand(editor, dropTarget));
       },

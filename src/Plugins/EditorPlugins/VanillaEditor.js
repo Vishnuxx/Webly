@@ -16,10 +16,10 @@ export default class VanillaPlugin extends EditorPluginInterface {
     const uid = this._createWidgetData(palletteData);
     const obj =  {
         elem: this._createWidgetElement(uid),
-        data: {...this._WIDGET_DATAS}
+        data: {...this._WIDGET_DATAS},
+        uid : uid
     }
 
-    console.log(obj.elem.getAttribute("dataId"));
 
     this._WIDGET_DATAS = {};
     return obj;
@@ -43,7 +43,6 @@ export default class VanillaPlugin extends EditorPluginInterface {
   _createWidgetElement = (uid) => {
     //const uid = createWidgetData(palletteData);
     const data = this._WIDGET_DATAS[uid];
-    console.log(this._WIDGET_DATAS)
     const elem = document.createElement(data.tag);
     elem.setAttribute("dataType", "canvaswidget"); // used to check if element is a widget or not
     elem.setAttribute("dataId", uid); //storing the referenceID of the data

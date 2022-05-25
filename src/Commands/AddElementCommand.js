@@ -6,52 +6,124 @@ export class AddElementCommand extends Command {
     this.editor = editor;
     this.dropzone = dropzone;
     this.index = index;
-    this.data = {}
+    this.data = {};
+    this.widgetUID = null;
     this.element = null;
   }
 
   execute() {
-    
-    const obj = this.editor
-      .getActivePlugin()
+    const widgetObj = this.editor
+      .getActiveEditorPlugin()
       .createWidget(this.editor.getCurrentData());
-    this.element = obj.elem;
-    this.data = obj.data;
+
+    this.element = widgetObj.elem;
+    this.data = widgetObj.data;
+    this.widgetUID = widgetObj.uid;
+
     //add every data to main data
     Object.keys(this.data).map((key) => {
-      this.editor.addWidgetData(key , this.data[key]);
+      this.editor.addWidgetData(key, this.data[key]);
     });
 
-    
-      if (this.index !== undefined) {
-        this.dropzone.insertBefore(
-          this.element,
+    // console.log(this.editor.getAllWidgetDatas());
+    const dropAreaId = this.dropzone.getAttribute("dataId");
+    const dropType = this.dropzone.getAttribute("dataType");
+    const dropAreaIsCanvasWidget = dropType === "canvaswidget";
+    const dropAreaIsRoot = dropType === "root";
+
+    if (this.index !== undefined) {
+      //element
+      this.dropzone.insertBefore(
+        this.element,
+        this.dropzone.children[this.index]
+      );
+
+      if (dropAreaIsCanvasWidget) {
+        //data
+        this.editor.addChild(
+          dropAreaId,
+          this.widgetUID,
           this.dropzone.children[this.index]
         );
-       } else {
-         this.dropzone.appendChild(this.element);
-       }
-   
+      } else if (dropAreaIsRoot) {
+        this.editor.addToRoot(this.widgetUID);
+      }
+    } else {
+      //element
+      this.dropzone.appendChild(this.element);
+
+      //data
+      if (dropAreaIsCanvasWidget) {
+        this.editor.addChild(dropAreaId, this.widgetUID);
+      } else if (dropAreaIsRoot) {
+        this.editor.addToRoot(this.widgetUID);
+      }
+    }
+
+    console.log(this.editor.getAllWidgetDatas())
   }
 
   undo() {
-    
+     const dropAreaId = this.dropzone.getAttribute("dataId");
+     const dropType = this.dropzone.getAttribute("dataType");
+     const dropAreaIsCanvasWidget = dropType === "canvaswidget";
+     const dropAreaIsRoot = dropType === "root";
+
     this.element.remove();
+
     //remove every data from main data
     Object.keys(this.data).map((key) => {
-      console.log("deleting: " + this.editor.getWidgetDataOf(key));
       this.editor.removeWidgetData(key);
     });
+
+    if (dropAreaIsCanvasWidget) {
+
+      this.editor.removeChildFrom(dropAreaId, this.widgetUID);
+      
+      // this.editor
+      //   .getWidgetDataOf(dropAreaId)
+      //   .children.filter((id) => {
+      //     console.log(id, this.widgetUID);
+      //     return id !== ;
+      //   });
+
+    } else if (dropAreaIsRoot) {
+
+      this.editor.removeFromRoot("children", this.widgetUID);
+
+    }
+     console.log(this.editor.getAllWidgetDatas());
   }
 
   redo() {
+     const dropAreaId = this.dropzone.getAttribute("dataId");
+     const dropType = this.dropzone.getAttribute("dataType");
+     const dropAreaIsCanvasWidget = dropType === "canvaswidget";
+     const dropAreaIsRoot = dropType === "root";
+
     //add every data to main data
     Object.keys(this.data).map((key) => {
-      this.editor.addWidgetData(key ,  this.data[key]);
+      this.editor.addWidgetData(key, this.data[key]);
     });
+
+    if (dropAreaIsCanvasWidget) {
+
+       this.editor.addChild(
+         dropAreaId,
+         this.widgetUID,
+         this.dropzone.children[
+           this.index !== undefined ? this.index : this.dropzone.children.length - 1
+         ]
+       );
+        
+    } else if(dropAreaIsRoot) {
+      this.addToRoot(this.widgetUID)
+    }
+
     this.dropzone.insertBefore(
       this.element,
       this.dropzone.children[this.index]
     );
+     console.log(this.editor.getAllWidgetDatas());
   }
 }

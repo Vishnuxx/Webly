@@ -1,25 +1,48 @@
 export default class PluginManager {
-    constructor(editor) {
-        this.editor = editor
-        this.plugins = {};
-    }
+  constructor(editor) {
+    this.editor = editor;
+    this.editorPlugins = {};
+    this.parserPlugins = {};
+  }
 
-    registerPlugin({id , name ,  ref}) {
-        if (this.plugins.hasOwnProperty(id)) throw "This plugin is already installed";
-        const plugin = {
-            name : name ,
-            ref: ref,
-        };
-        this.plugins[id] = plugin
-    }
+  //    Editor plugins
+  registerEditorPlugin({ id, name, ref }) {
+    if (this.editorPlugins.hasOwnProperty(id))
+      throw "This plugin is already installed";
+    const plugin = {
+      name: name,
+      ref: ref,
+    };
+    this.editorPlugins[id] = plugin;
+  }
 
-    unregisterPlugin(uid) {
-        delete this.plugins[uid];
-    }
+  unregisterEditorPlugin(uid) {
+    delete this.editorPlugins[uid];
+  }
 
-    activateEditorPlugin(uid) {
-        this.editor.setEditorPlugin(this.plugins[uid].ref);
-        console.log(this.plugins[uid].ref);
-    }
+  activateEditorPlugin(uid) {
+    this.editor.setEditorPlugin(this.editorPlugins[uid].ref);
+    
+  }
 
+  //   Parser plugins
+
+  registerParserPlugin({ id, name, ref }) {
+    if (this.parserPlugins.hasOwnProperty(id))
+      throw "This parser plugin is already installed";
+    const parser = {
+      name: name,
+      ref: ref,
+    };
+    this.parserPlugins[id] = parser;
+  }
+
+  unregisterParserPlugin(uid) {
+    delete this.parserPlugins[uid];
+  }
+
+  activateParserPlugin(uid) {
+    this.editor.setParserPlugin(this.parserPlugins[uid].ref);
+   
+  }
 }

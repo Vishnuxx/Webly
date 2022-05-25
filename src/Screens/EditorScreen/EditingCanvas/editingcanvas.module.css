@@ -8,9 +8,6 @@
  
 }
 
-div:focus {
-    outline: 5px solid rgb(11, 187, 23);
-}
 
 .canvas {
     height: 100%;
@@ -23,8 +20,10 @@ div:focus {
 
 .highlightWidget {
     outline: 2px solid orangered;
+    outline-offset: -2px;
 }
 
 .hover {
-    outline: 1px solid blue;
+    outline: 2px dashed rgb(255, 0, 140);
+    outline-offset: -2px;
 }
