@@ -12,6 +12,7 @@ export class AddElementCommand extends Command {
   }
 
   execute() {
+    //create new widget
     const widgetObj = this.editor
       .getActiveEditorPlugin()
       .createWidget(this.editor.getCurrentData());
@@ -78,7 +79,7 @@ export class AddElementCommand extends Command {
 
     if (dropAreaIsCanvasWidget) {
 
-      this.editor.removeChildFrom(dropAreaId, this.widgetUID);
+      this.editor.removeChild(dropAreaId, this.widgetUID);
       
       // this.editor
       //   .getWidgetDataOf(dropAreaId)
@@ -117,7 +118,7 @@ export class AddElementCommand extends Command {
        );
         
     } else if(dropAreaIsRoot) {
-      this.addToRoot(this.widgetUID)
+      this.editor.addToRoot(this.widgetUID)
     }
 
     this.dropzone.insertBefore(

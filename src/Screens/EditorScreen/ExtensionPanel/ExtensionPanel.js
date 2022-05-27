@@ -13,7 +13,7 @@ export function ExtensionPanel(props) {
       //   editor.getActiveParserPlugin().parseIntoCode(canvas.getCanvasView().children[0]));
       return <div dangerouslySetInnerHTML={{__html: editor
         .getActiveParserPlugin()
-        .parseIntoCode(canvas.getCanvasView().children[0])}} /> 
+        .parseIntoCode()}} /> 
     }
    return <Text>Nothing</Text>
   };

@@ -19,6 +19,8 @@ export function Editor() {
 
   this.getCurrentData = () => currentData;
 
+  this.getRootData = () => rootData
+
   this.getWidgetDataOf = (id) => widgetData[id];
 
   this.getAllWidgetDatas = () => widgetData;
@@ -60,6 +62,34 @@ export function Editor() {
     }
   }
 
+   this.moveChildFromRoot = (id, destinationId, index) => {
+     //remove from root
+     rootData["children"].splice(rootData["children"].indexOf(id), 1);
+
+     if (index !== undefined) {
+       //add to new parent
+       widgetData[destinationId]["children"].splice(index, 0, id);
+     } else {
+       //add to new parent
+       widgetData[destinationId]["children"].push(id);
+     }
+   };
+
+   this.moveChildToRoot = (id, sourceId, index) => {
+     //remove from old parent
+     widgetData[sourceId]["children"].splice(
+       widgetData[sourceId]["children"].indexOf(id),
+       1
+     );
+
+     //add to root
+     if (index !== undefined) {
+       rootData["children"].splice(index, 0, id);
+     } else {
+       rootData["children"].splice(rootData["children"].indexOf(id), 0, id);
+     }
+   };
+
   this.removeFromRoot = (property , widgetid) => {
     delete rootData[property][widgetid];
   }
@@ -72,7 +102,24 @@ export function Editor() {
     }
   };
 
-  this.removeChildFrom = (parentId, key) => {
+  this.moveChild = (id, sourceId, destinationId, index) => {
+    //remove from old parent
+    widgetData[sourceId]["children"].splice(
+      widgetData[sourceId]["children"].indexOf(id),
+      1
+    );
+
+    if (index !== undefined) {
+      //add to new parent
+      widgetData[destinationId]["children"].splice(index, 0, id);
+    } else {
+      //add to new parent
+      widgetData[destinationId]["children"].push(id);
+    }
+  };
+
+ 
+  this.removeChild = (parentId, key) => {
     const children = widgetData[parentId]["children"];
     widgetData[parentId]["children"].splice(children.indexOf(key) , 1);
   };

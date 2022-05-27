@@ -89,7 +89,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
       isMultiChilded: palletteData.isMultiChilded,
       acceptableTypes: palletteData.acceptableTypes,
       children: palletteData.children.map((childData) =>
-        this.createWidgetData(childData)
+        this._createWidgetData(childData)
       ),
     };
 

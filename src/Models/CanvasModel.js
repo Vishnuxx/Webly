@@ -26,7 +26,17 @@ export function CanvasModel(editor) {
   this.isPointerInsideCanvas = (x, y) =>
     Utils.hitTest(canvasDom.getBoundingClientRect(), x, y);
 
-  this.setCanvasView = (canv) => (canvasDom = canv);
+  this.setCanvasView = (canv) => {
+    if(canvasDom !== null) {
+      canvasDom.removeAttribute("dataType")
+      canvasDom = canv;
+      canvasDom.setAttribute("dataType" , "root");
+    } else {
+       canvasDom = canv;
+       canvasDom.setAttribute("dataType", "root");
+    }
+    
+  };
   this.getCanvasView = () => canvasDom;
 
   this.getCurrentDraggingElement = () => currentDraggingElement;
@@ -105,7 +115,10 @@ export function CanvasModel(editor) {
             //isWidget
             isHolding = true;
             currentDraggingElement = elem;
-            // console.log(currentDraggingElement);
+            editor.setCurrentData(
+              editor.getWidgetDataOf(elem.getAttribute("dataId"))
+            );
+            console.log(currentDraggingElement);
             dragStart(e);
             break;
 
@@ -144,12 +157,17 @@ export function CanvasModel(editor) {
         switch (currentDraggingType) {
           case "pallette":
             COMMANDS.executeCommand("addElement", {
-              target: droppable,
+              element: droppable,
               index: undefined,
             });
             // console.log("drop");
             break;
           case "canvaswidget":
+             COMMANDS.executeCommand("moveElement", {
+               element: currentDraggingElement,
+               destination: droppable ,
+               index: undefined,
+             });
             break;
           default:
             break;

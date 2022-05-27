@@ -4,8 +4,11 @@ export class VanillaParser {
         this.data = editor.getAllWidgetDatas()
     }
 
-    parseIntoCode(elem) {
-        return this._generateCode(elem.getAttribute("dataId"))
+    parseIntoCode() {
+        return this.editor.getRootData().children.map(elemId => {
+            console.log(elemId)
+            return this._generateCode(elemId);
+        }) 
     }   
 
     _generateCode(id) {

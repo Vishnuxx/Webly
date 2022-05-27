@@ -30,13 +30,13 @@ export function EditingCanvas(props) {
           //  updateSidebarList(editor.widgetData[elem.getAttribute("dataId")]["styles"])
           canvas.highlightElement(elem, style.highlightWidget);
           console.log(canvas.isPointerInsideCanvas(e.pageX, e.pageY));
-          updateSidebarList(
-            editor.getWidgetDataOf(
-              canvas.getCurrentDraggingElement().getAttribute("dataId")
-            )
-          );
+          // updateSidebarList(
+          //   editor.getWidgetDataOf(
+          //     canvas.getCurrentDraggingElement().getAttribute("dataId")
+          //   )
+          // );
         } else {
-          updateSidebarList(editor.getWidgetDataOf({}));
+          // updateSidebarList(editor.getWidgetDataOf({}));
         }
       },
 
@@ -135,7 +135,7 @@ export function EditingCanvas(props) {
 
   return (
     <section className={style.editingcanvas}>
-      <div ref={canvasRef} className={style.canvas}></div>
+      <div ref={canvasRef} className={style.canvas} ></div>
     </section>
   );
 }
