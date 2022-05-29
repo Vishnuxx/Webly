@@ -12,34 +12,51 @@ import { Utils } from "./Utils";
 export function CanvasModel(editor) {
   this.editor = editor;
 
+  var longPressDuration = 150;
+  var timeout;
   var isHolding = false;
-  var timer;
   var entered = false;
 
   var canvasDom = null;
   // var canvasDimensions;
+  var currentSlectedElement;
   var currentDraggingElement;
   var currentDraggingType = "";
 
   var previousWidget;
 
+  
+
+  //util methods
+  this.setLongPressDuration = (duration) => (longPressDuration = duration);
+
+  this.getLongPressDuration = () => longPressDuration;
+
   this.isPointerInsideCanvas = (x, y) =>
     Utils.hitTest(canvasDom.getBoundingClientRect(), x, y);
 
   this.setCanvasView = (canv) => {
-    if(canvasDom !== null) {
-      canvasDom.removeAttribute("dataType")
+    if (canvasDom !== null) {
+      canvasDom.removeAttribute("dataType");
       canvasDom = canv;
-      canvasDom.setAttribute("dataType" , "root");
+      canvasDom.setAttribute("dataType", "root");
     } else {
-       canvasDom = canv;
-       canvasDom.setAttribute("dataType", "root");
+      canvasDom = canv;
+      canvasDom.setAttribute("dataType", "root");
     }
-    
   };
+
+  this.selectElement = (elem) => {
+      if (this.isCanvasWidget(elem)) {
+        currentSlectedElement = elem;
+      }
+  }
+
   this.getCanvasView = () => canvasDom;
 
   this.getCurrentDraggingElement = () => currentDraggingElement;
+
+  this.getCurrentSelectedElement = () => currentSlectedElement;
 
   this.isHolding = () => isHolding;
 
@@ -48,12 +65,11 @@ export function CanvasModel(editor) {
   this.getType = (elem) => elem.getAttribute("dataType");
 
   //checks if the element is canvas item
-  this.isEditingWidget = (elem) => {
+  this.isCanvasWidget = (elem) => {
     return elem.getAttribute("datatype") === "canvaswidget";
   };
 
   this.canAcceptChild = (dropareaElement) => {
-    
     const data = this.editor.getWidgetDataOf(
       dropareaElement.getAttribute("dataId")
     );
@@ -65,18 +81,17 @@ export function CanvasModel(editor) {
     );
   };
 
-  this.highlightElement = (elem , classname) => {
-     if (elem.classList.contains(classname) !== true) {
-       elem.classList.add(classname);
-     }
-     //detect the variable change
-     if (elem !== previousWidget) {
-       
-       if (previousWidget !== undefined)
-         previousWidget.classList.remove(classname);
-       previousWidget = elem;
-     }
-  } 
+  this.highlightElement = (elem, classname) => {
+    if (elem.classList.contains(classname) !== true) {
+      elem.classList.add(classname);
+    }
+    //detect the variable change
+    if (elem !== previousWidget) {
+      if (previousWidget !== undefined)
+        previousWidget.classList.remove(classname);
+      previousWidget = elem;
+    }
+  };
 
   //>>EditingCanvas
   //should be called only once after canvas is rendered
@@ -89,16 +104,17 @@ export function CanvasModel(editor) {
     dragOver,
     dragExit,
     drop,
-    dragEnd
+    mouseUp
   ) => {
     //timer
-    timer = document.onpointerdown = (e) => {
+     document.onpointerdown = (e) => {
       pointerDown(e);
       // canvasDimensions = canvasDom.getBoundingClientRect();
       const elem = document.elementFromPoint(e.pageX, e.pageY);
- 
-      //isPalletteItem
-      window.setTimeout(() => {
+
+      
+      timeout = window.setTimeout(() => {
+        console.log("started")
         currentDraggingType = elem.getAttribute("dataType");
         switch (currentDraggingType) {
           case "pallette":
@@ -108,6 +124,7 @@ export function CanvasModel(editor) {
             editor.setCurrentData(
               pallette.getDataOf(elem.getAttribute("dataKey"))
             );
+         
             dragStart(e);
             break;
 
@@ -126,7 +143,8 @@ export function CanvasModel(editor) {
             currentDraggingElement = null;
             break;
         }
-      }, editor.getLongPressDuration());
+         
+      }, longPressDuration);
     };
 
     document.onpointermove = (e) => {
@@ -151,7 +169,6 @@ export function CanvasModel(editor) {
 
     document.onpointerup = (e) => {
       if (isHolding === true && entered === true) {
-
         //____DROP_____
         const droppable = document.elementFromPoint(e.pageX, e.pageY);
         switch (currentDraggingType) {
@@ -163,26 +180,24 @@ export function CanvasModel(editor) {
             // console.log("drop");
             break;
           case "canvaswidget":
-             COMMANDS.executeCommand("moveElement", {
-               element: currentDraggingElement,
-               destination: droppable ,
-               index: undefined,
-             });
+            COMMANDS.executeCommand("moveElement", {
+              element: currentDraggingElement,
+              destination: droppable,
+              index: undefined,
+            });
             break;
           default:
             break;
         }
         drop(e);
-
       }
       isHolding = false;
       entered = false;
       canvasDom.style.outline = "none";
-      dragEnd(e);
-      //currentDraggingElement = null;
-      window.clearInterval(timer);
+      this.selectElement(e.target)
+      mouseUp(e);
+      window.clearTimeout(timeout);
+      console.log("cleared");
     };
   };
-
-  
 }

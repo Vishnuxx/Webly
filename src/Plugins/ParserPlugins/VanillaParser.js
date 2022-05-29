@@ -1,17 +1,23 @@
-export class VanillaParser {
+import ParserPlugin from "./ParserPlugin";
+
+export class VanillaParser extends ParserPlugin{
     constructor(editor) {
+        super();
         this.editor = editor
         this.data = editor.getAllWidgetDatas()
     }
 
     parseIntoCode() {
-        return this.editor.getRootData().children.map(elemId => {
-            console.log(elemId)
-            return this._generateCode(elemId);
-        }) 
+        super.parseIntoCode();
+       let code = ""
+       this.editor.getRootData().children.map(elemId => {
+            code += this._generateCode(elemId);
+        });
+        return code;
     }   
 
     _generateCode(id) {
+
         let attributes ="";
         let style = "";
         let childNodes = ""
@@ -30,9 +36,13 @@ export class VanillaParser {
 
         return (
             `<${this.data[id].tag} ${attributes} style="${style }"> 
-                 ${this.data[id].content}
-                 ${childNodes}
+                ${this.data[id].content}
+                ${childNodes}
             </${this.data[id].tag}>`
           )
+    }
+
+    parseIntoData() {
+        super.parseIntoData();
     }
 }

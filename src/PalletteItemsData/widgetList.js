@@ -8,13 +8,13 @@ export const widgetlist = [
     type: "widget",
     label: "Div",
     key: "div",
-    icon: "https://img.icons8.com/nolan/64/rectangle.png",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png" ,
   },
   {
     type: "widget",
     label: "Button",
     key: "button",
-    icon: "https://img.icons8.com/nolan/64/rectangle.png",
+    icon: "https://img.icons8.com/nolan/64/rectangle.png" ,
   },
   {
     type: "widget",

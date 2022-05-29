@@ -7,7 +7,7 @@ import {
 } from "../../../State/EditorState";
 import style from "./editingcanvas.module.css";
 
-import { AddElementCommand } from "../../../Models/Commands";
+
 
 export function EditingCanvas(props) {
   const canvasRef = useRef();
@@ -25,19 +25,7 @@ export function EditingCanvas(props) {
     canvas.initDragControls(
       //PointerDown
       function (e) {
-        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
-          const elem = document.elementFromPoint(e.pageX, e.pageY);
-          //  updateSidebarList(editor.widgetData[elem.getAttribute("dataId")]["styles"])
-          canvas.highlightElement(elem, style.highlightWidget);
-          console.log(canvas.isPointerInsideCanvas(e.pageX, e.pageY));
-          // updateSidebarList(
-          //   editor.getWidgetDataOf(
-          //     canvas.getCurrentDraggingElement().getAttribute("dataId")
-          //   )
-          // );
-        } else {
-          // updateSidebarList(editor.getWidgetDataOf({}));
-        }
+        
       },
 
       //Pointer Move
@@ -125,8 +113,24 @@ export function EditingCanvas(props) {
         // editor.execute(new AddElementCommand(editor, dropTarget));
       },
 
-      //Drag End
+      //MouseUp
       function (e) {
+        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
+          const elem = document.elementFromPoint(e.pageX, e.pageY);
+          if (canvas.isCanvasWidget(elem)) {
+            canvas.highlightElement(elem , style.highlightWidget);
+            console.log(
+            
+            );
+             updateSidebarList(
+               editor.getWidgetDataOf(
+                 canvas.getCurrentSelectedElement().getAttribute("dataId")
+               )
+             );
+          }
+        } else {
+          //updateSidebarList(editor.getWidgetDataOf({}));
+        }
         updateDragShadowPosition({ x: 0, y: 0, isVisible: false });
       }
     );
@@ -135,7 +139,7 @@ export function EditingCanvas(props) {
 
   return (
     <section className={style.editingcanvas}>
-      <div ref={canvasRef} className={style.canvas} ></div>
+      <div ref={canvasRef} className={style.canvas}></div>
     </section>
   );
 }

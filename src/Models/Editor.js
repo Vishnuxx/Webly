@@ -1,7 +1,7 @@
 import { History } from "./History";
 
 export function Editor() {
-  var longPressDuration = 0;
+  
   var activeEditorPlugin;
   var activeParserPlugin;
   var rootData = {
@@ -47,10 +47,7 @@ export function Editor() {
 
   this.getActiveParserPlugin = () => activeParserPlugin;
 
-  //util methods
-  this.setLongPressDuration = (duration) => (longPressDuration = duration);
-
-  this.getLongPressDuration = () => longPressDuration;
+  
 
   //Data Operations
 

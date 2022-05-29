@@ -8,11 +8,14 @@ export default class VanillaPlugin extends EditorPluginInterface {
   }
 
   //override
-  getWidgetDatas = () => this._WIDGET_DATAS
+  getWidgetDatas = () => {
+     super.getWidgetDatas();
+     return this._WIDGET_DATAS;
+  }
 
  // @override
   createWidget = (palletteData) => {
-    
+    super.createWidget()
     const uid = this._createWidgetData(palletteData);
     const obj =  {
         elem: this._createWidgetElement(uid),
@@ -28,13 +31,16 @@ export default class VanillaPlugin extends EditorPluginInterface {
   //updates the attribute of the element at runtime
   //override
   updateAttribute = (elem, attributename, value) => {
+    super.updateAttribute()
     this._WIDGET_DATAS[elem.getAttribute("dataId")]["attrs"][attributename] = value;
     elem.setAttribute(attributename, value);
   }
 
   //updates the style of the element at runtime
   //override
+
   updateStyle = (elem, stylename, value) => {
+    super.updateStyle()
     this._WIDGET_DATAS[elem.getAttribute("dataId")]["styles"][stylename] =
       value;
     elem.style[stylename] = value;
