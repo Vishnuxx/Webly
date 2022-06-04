@@ -1,3 +1,4 @@
+import { Dummy } from "./Dummy";
 import { COMMANDS, pallette } from "./Models";
 import { Utils } from "./Utils";
 
@@ -18,6 +19,7 @@ export function CanvasModel(editor) {
   var entered = false;
 
   var canvasDom = null;
+
   // var canvasDimensions;
   var currentSlectedElement;
   var currentDraggingElement;
@@ -25,7 +27,6 @@ export function CanvasModel(editor) {
 
   var previousWidget;
 
-  
 
   //util methods
   this.setLongPressDuration = (duration) => (longPressDuration = duration);
@@ -47,9 +48,11 @@ export function CanvasModel(editor) {
   };
 
   this.selectElement = (elem) => {
-      if (this.isCanvasWidget(elem)) {
-        currentSlectedElement = elem;
-      }
+    // currentSlectedElement.style.outline = "none";
+    if (this.isCanvasWidget(elem)) {
+      currentSlectedElement = elem;
+     // currentSlectedElement.style.outline = "1px solid red";
+    }
   }
 
   this.getCanvasView = () => canvasDom;
@@ -68,6 +71,10 @@ export function CanvasModel(editor) {
   this.isCanvasWidget = (elem) => {
     return elem.getAttribute("datatype") === "canvaswidget";
   };
+
+  this.isRootWidget = (elem) => {
+    return elem.getAttribute("datatype") === "root";
+  }
 
   this.canAcceptChild = (dropareaElement) => {
     const data = this.editor.getWidgetDataOf(
@@ -158,11 +165,12 @@ export function CanvasModel(editor) {
           }
         } else {
           if (entered === true) {
-            canvasDom.style.outline = "none";
+
             dragExit(e);
             entered = false;
           }
         }
+    
         dragMove(e);
       }
     };
@@ -193,11 +201,9 @@ export function CanvasModel(editor) {
       }
       isHolding = false;
       entered = false;
-      canvasDom.style.outline = "none";
       this.selectElement(e.target)
       mouseUp(e);
       window.clearTimeout(timeout);
-      console.log("cleared");
     };
   };
 }

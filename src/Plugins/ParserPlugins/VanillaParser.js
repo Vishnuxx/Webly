@@ -10,7 +10,7 @@ export class VanillaParser extends ParserPlugin{
     parseIntoCode() {
         super.parseIntoCode();
        let code = ""
-       this.editor.getRootData().children.map(elemId => {
+       this.editor.getRootData().map(elemId => {
             code += this._generateCode(elemId);
         });
         return code;

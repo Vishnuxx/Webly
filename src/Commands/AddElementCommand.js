@@ -90,7 +90,7 @@ export class AddElementCommand extends Command {
 
     } else if (dropAreaIsRoot) {
 
-      this.editor.removeFromRoot("children", this.widgetUID);
+      this.editor.removeFromRoot(this.widgetUID);
 
     }
      console.log(this.editor.getAllWidgetDatas());

@@ -12,7 +12,7 @@ export const canvas = new CanvasModel(editor);
 export const COMMANDS = new Commands(editor);
 
 //plugins
-const pluginmanager = new PluginManager(editor);
+const pluginmanager = new PluginManager(editor , canvas);
 
 const vanillaPlugin = pluginmanager.registerEditorPlugin({
   id: "plugin1",

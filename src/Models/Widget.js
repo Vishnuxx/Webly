@@ -3,15 +3,6 @@ import { nanoid } from "nanoid";
 export function Widget(editormodel) {
   const editor = editormodel;
   var widget = null
-  
-
-  // this.select = () => {
-  // }
-
-  // this.unselect = () => {
-  // }
-
- 
 
  
 

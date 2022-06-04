@@ -11,7 +11,9 @@ export function Editor() {
   }; //currentDraggingData
 
   const history = new History();
-  const widgetData = {}; //datas of widgets
+  const widgetData = {
+    root:[]
+  }; //datas of widgets
 
   this.isFromPallette = (elem) => elem.getAttribute("dataType") === "pallette";
 
@@ -19,7 +21,7 @@ export function Editor() {
 
   this.getCurrentData = () => currentData;
 
-  this.getRootData = () => rootData
+  this.getRootData = () => widgetData["root"]
 
   this.getWidgetDataOf = (id) => widgetData[id];
 
@@ -30,6 +32,7 @@ export function Editor() {
   };
 
   this.removeWidgetData = (id) => {
+    
     delete widgetData[id];
   };
 
@@ -53,15 +56,15 @@ export function Editor() {
 
   this.addToRoot = (childId , index) => {
     if (index !== undefined) {
-      rootData["children"].splice(index, 0, childId);
+      widgetData["root"].splice(index, 0, childId);
     } else {
-      rootData["children"].push(childId);
+      widgetData["root"].push(childId);
     }
   }
 
    this.moveChildFromRoot = (id, destinationId, index) => {
      //remove from root
-     rootData["children"].splice(rootData["children"].indexOf(id), 1);
+     widgetData["root"].splice(widgetData["root"].indexOf(id), 1);
 
      if (index !== undefined) {
        //add to new parent
@@ -81,14 +84,14 @@ export function Editor() {
 
      //add to root
      if (index !== undefined) {
-       rootData["children"].splice(index, 0, id);
+       widgetData["root"].splice(index, 0, id);
      } else {
-       rootData["children"].splice(rootData["children"].indexOf(id), 0, id);
+       widgetData["root"].splice(widgetData["root"].indexOf(id), 0, id);
      }
    };
 
-  this.removeFromRoot = (property , widgetid) => {
-    delete rootData[property][widgetid];
+  this.removeFromRoot = (widgetid) => {
+     widgetData["root"].splice(widgetData["root"].indexOf(widgetid), 1);
   }
 
   this.addChild = (parentId, childId, index) => {
@@ -118,7 +121,7 @@ export function Editor() {
  
   this.removeChild = (parentId, key) => {
     const children = widgetData[parentId]["children"];
-    widgetData[parentId]["children"].splice(children.indexOf(key) , 1);
+    children.splice(children.indexOf(key) , 1);
   };
 
   //Command oprations

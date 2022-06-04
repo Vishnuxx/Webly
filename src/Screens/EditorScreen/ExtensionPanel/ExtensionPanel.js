@@ -7,13 +7,13 @@ export function ExtensionPanel(props) {
   const sheet = useRef()
   const [isShown, setIsShown] = useState(false);
   const code = () => {
-  
+   
     if (isShown === true) {
-      // console.log(
-      //   editor.getActiveParserPlugin().parseIntoCode(canvas.getCanvasView().children[0]));
-      return <div dangerouslySetInnerHTML={{__html: editor
+      const code = editor
         .getActiveParserPlugin()
-        .parseIntoCode()}} /> 
+        .parseIntoCode();
+     console.log(code)
+      return <div dangerouslySetInnerHTML={{__html: code}} /> 
     }
    return <Text>Nothing</Text>
   };

@@ -1,6 +1,7 @@
 export default class PluginManager {
-  constructor(editor) {
+  constructor(editor , canvas) {
     this.editor = editor;
+    this.canvas = canvas;
     this.editorPlugins = {};
     this.parserPlugins = {};
   }

@@ -1,5 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
+import { Dummy } from "../../../Models/Dummy";
 import { canvas, COMMANDS, editor } from "../../../Models/Models";
 import {
   dragShadowPositionState,
@@ -7,53 +8,64 @@ import {
 } from "../../../State/EditorState";
 import style from "./editingcanvas.module.css";
 
-
-
 export function EditingCanvas(props) {
   const canvasRef = useRef();
   const updateSidebarList = useSetRecoilState(propertyListState);
+  const updateDragShadowPosition = useSetRecoilState(dragShadowPositionState);
+
+  const highlightElement = (classname) => {
+    const previousWidget = canvas.getCurrentSelectedElement();
+    if (previousWidget !== undefined) {
+      if (previousWidget.classList.contains(classname) === true) {
+        previousWidget.classList.remove(classname);
+      }
+      previousWidget.classList.add(classname);
+    }
+      
+   
+
+    //detect the variable change
+  };
 
   useEffect(() => {
     canvas.setCanvasView(canvasRef.current);
   });
 
-  const updateDragShadowPosition = useSetRecoilState(dragShadowPositionState);
   useEffect(() => {
     var dropTarget;
     var previousWidget;
     var currentPointingElement; //shows highlighted on cursor in
+    const dummy = new Dummy(canvas);
     canvas.initDragControls(
       //PointerDown
-      function (e) {
-        
-      },
+      function (e) {},
 
       //Pointer Move
       function (e) {
+        currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
         if (
           canvas.isPointerInsideCanvas(e.pageX, e.pageY) &&
           canvas.isHolding() === false
         ) {
-          currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
-          canvas.highlightElement(currentPointingElement, style.hover);
-        //   if (
-        //     !currentPointingElement.classList.contains(style.hover)
-        //   ) {
-        //     currentPointingElement.classList.add(style.hover);
-        //   }
-        //   //detect the variable change
-        //   if (currentPointingElement !== previousWidget) {
-        //     console.log("changed");
-        //     if (previousWidget !== undefined)
-        //       previousWidget.classList.remove(style.hover);
-        //     previousWidget = currentPointingElement;
-        //   }
+          highlightElement(style.hover);
+          //   if (
+          //     !currentPointingElement.classList.contains(style.hover)
+          //   ) {
+          //     currentPointingElement.classList.add(style.hover);
+          //   }
+          //   //detect the variable change
+          //   if (currentPointingElement !== previousWidget) {
+          //     console.log("changed");
+          //     if (previousWidget !== undefined)
+          //       previousWidget.classList.remove(style.hover);
+          //     previousWidget = currentPointingElement;
+          //   }
         }
       },
       //DragStart
       function (e) {
         // editor.setCurrentElement(document.elementFromPoint(e.pageX , e.pageY));
-       
+
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
@@ -71,7 +83,7 @@ export function EditingCanvas(props) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
         if (droparea === canvas.getCanvasView()) {
-           canvas.highlightElement(droparea, style.highlightWidget);
+          //  canvas.highlightElement(droparea, style.highlightWidget);
           // if (droparea.classList.contains(style.highlightWidget) !== true) {
           // droparea.classList.add(style.highlightWidget);
           // }
@@ -96,8 +108,12 @@ export function EditingCanvas(props) {
             //     previousWidget.classList.toggle(style.highlightWidget);
             //   previousWidget = droparea;
             // }
-            canvas.highlightElement(droparea, style.highlightWidget);
+            highlightElement(style.hover);
           }
+        }
+
+        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
+          dummy.predictDropArea(e.pageX, e.pageY);
         }
       },
 
@@ -105,32 +121,10 @@ export function EditingCanvas(props) {
       function (e) {},
 
       //Drop
-      function (e) {
-      
-        // COMMANDS.executeCommand("addElement" , {
-        //   target :
-        // })
-        // editor.execute(new AddElementCommand(editor, dropTarget));
-      },
+      function (e) {},
 
       //MouseUp
       function (e) {
-        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
-          const elem = document.elementFromPoint(e.pageX, e.pageY);
-          if (canvas.isCanvasWidget(elem)) {
-            canvas.highlightElement(elem , style.highlightWidget);
-            console.log(
-            
-            );
-             updateSidebarList(
-               editor.getWidgetDataOf(
-                 canvas.getCurrentSelectedElement().getAttribute("dataId")
-               )
-             );
-          }
-        } else {
-          //updateSidebarList(editor.getWidgetDataOf({}));
-        }
         updateDragShadowPosition({ x: 0, y: 0, isVisible: false });
       }
     );

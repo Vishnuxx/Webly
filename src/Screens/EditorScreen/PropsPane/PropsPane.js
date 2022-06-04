@@ -18,11 +18,11 @@ export function PropsPane(props) {
       display="flex"
       flexFlow="column"
     >
-      {Object.keys(properties).map((key) => {
+      {/* {Object.keys(properties).map((key) => {
         return (
           <Property key={key} name={key} value={properties[key]}></Property>
         );
-      })}
+      })} */}
     </Pane>
   );
 }
