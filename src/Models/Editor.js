@@ -4,18 +4,14 @@ export function Editor() {
   
   var activeEditorPlugin;
   var activeParserPlugin;
-  var rootData = {
-    children: []
-  }
-  var currentData = {
-  }; //currentDraggingData
+  var currentData = {}; 
 
+  const widgetData = {root: []}; 
   const history = new History();
-  const widgetData = {
-    root:[]
-  }; //datas of widgets
+  
+  this.elemType = () => "skjhkjfhdskjfhks"
 
-  this.isFromPallette = (elem) => elem.getAttribute("dataType") === "pallette";
+  this.isFromPallette = (elem) => elem.getAttribute(this.elemType()) === "pallette";
 
   this.setCurrentData = (data) => (currentData = data);
 

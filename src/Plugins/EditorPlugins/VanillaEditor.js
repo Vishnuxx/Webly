@@ -1,4 +1,5 @@
 import { nanoid } from "nanoid";
+import { editor } from "../../Models/Models";
 import EditorPluginInterface from "./EditorPlugin";
 
 export default class VanillaPlugin extends EditorPluginInterface {
@@ -9,48 +10,48 @@ export default class VanillaPlugin extends EditorPluginInterface {
 
   //override
   getWidgetDatas = () => {
-     super.getWidgetDatas();
-     return this._WIDGET_DATAS;
-  }
+    super.getWidgetDatas();
+    return this._WIDGET_DATAS;
+  };
 
- // @override
+  // @override
   createWidget = (palletteData) => {
-    super.createWidget()
+    super.createWidget();
     const uid = this._createWidgetData(palletteData);
-    const obj =  {
-        elem: this._createWidgetElement(uid),
-        data: {...this._WIDGET_DATAS},
-        uid : uid
-    }
-
+    const obj = {
+      elem: this._createWidgetElement(uid),
+      data: { ...this._WIDGET_DATAS },
+      uid: uid,
+    };
 
     this._WIDGET_DATAS = {};
     return obj;
-  }
+  };
 
   //updates the attribute of the element at runtime
   //override
   updateAttribute = (elem, attributename, value) => {
-    super.updateAttribute()
-    this._WIDGET_DATAS[elem.getAttribute("dataId")]["attrs"][attributename] = value;
+    super.updateAttribute();
+    this._WIDGET_DATAS[elem.getAttribute("dataId")]["attrs"][attributename] =
+      value;
     elem.setAttribute(attributename, value);
-  }
+  };
 
   //updates the style of the element at runtime
   //override
 
   updateStyle = (elem, stylename, value) => {
-    super.updateStyle()
+    super.updateStyle();
     this._WIDGET_DATAS[elem.getAttribute("dataId")]["styles"][stylename] =
       value;
     elem.style[stylename] = value;
-  }
+  };
 
   _createWidgetElement = (uid) => {
     //const uid = createWidgetData(palletteData);
     const data = this._WIDGET_DATAS[uid];
     const elem = document.createElement(data.tag);
-    elem.setAttribute("dataType", "canvaswidget"); // used to check if element is a widget or not
+    elem.setAttribute(editor.elemType(), "canvaswidget"); // used to check if element is a widget or not
     elem.setAttribute("dataId", uid); //storing the referenceID of the data
     //parsing attributes
     for (let key in data.attrs) {
@@ -80,7 +81,7 @@ export default class VanillaPlugin extends EditorPluginInterface {
     }
 
     return elem;
-  }
+  };
 
   _createWidgetData = (palletteData) => {
     const uid = nanoid(16);
@@ -101,5 +102,5 @@ export default class VanillaPlugin extends EditorPluginInterface {
 
     this._WIDGET_DATAS[uid] = widgetData;
     return uid;
-  }
+  };
 }

@@ -28,7 +28,7 @@ export class AddElementCommand extends Command {
 
     // console.log(this.editor.getAllWidgetDatas());
     const dropAreaId = this.dropzone.getAttribute("dataId");
-    const dropType = this.dropzone.getAttribute("dataType");
+    const dropType = this.dropzone.getAttribute(this.editor.elemType());
     const dropAreaIsCanvasWidget = dropType === "canvaswidget";
     const dropAreaIsRoot = dropType === "root";
 
@@ -66,7 +66,7 @@ export class AddElementCommand extends Command {
 
   undo() {
      const dropAreaId = this.dropzone.getAttribute("dataId");
-     const dropType = this.dropzone.getAttribute("dataType");
+     const dropType = this.dropzone.getAttribute(this.editor.elemType());
      const dropAreaIsCanvasWidget = dropType === "canvaswidget";
      const dropAreaIsRoot = dropType === "root";
 
@@ -98,7 +98,7 @@ export class AddElementCommand extends Command {
 
   redo() {
      const dropAreaId = this.dropzone.getAttribute("dataId");
-     const dropType = this.dropzone.getAttribute("dataType");
+     const dropType = this.dropzone.getAttribute(this.editor.elemType());
      const dropAreaIsCanvasWidget = dropType === "canvaswidget";
      const dropAreaIsRoot = dropType === "root";
 

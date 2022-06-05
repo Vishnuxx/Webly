@@ -16,8 +16,8 @@ export class MoveElementCommand extends Command {
     this.oldParentId = this.oldParent.getAttribute("dataId");
     this.newParentId = this.newParent.getAttribute("dataId");
 
-    this.oldParentType = this.oldParent.getAttribute("dataType");
-    this.newParentType = this.newParent.getAttribute("dataType");
+    this.oldParentType = this.oldParent.getAttribute(editor.elemType());
+    this.newParentType = this.newParent.getAttribute(editor.elemType());
   }
 
   _moveElement() {

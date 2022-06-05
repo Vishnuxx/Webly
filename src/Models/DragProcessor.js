@@ -2,15 +2,13 @@ import { Dummy } from "./Dummy";
 import { COMMANDS, pallette } from "./Models";
 import { Utils } from "./Utils";
 
-
 // Widget           dataType
 // canvasWidget   = canvaswidget
 // palletteWidget = pallette
 // rootWidget     = root
 
-
 //>> Editing canvas
-export function CanvasModel(editor) {
+export function DragProcessor(editor) {
   this.editor = editor;
 
   var longPressDuration = 150;
@@ -27,7 +25,6 @@ export function CanvasModel(editor) {
 
   var previousWidget;
 
-
   //util methods
   this.setLongPressDuration = (duration) => (longPressDuration = duration);
 
@@ -38,12 +35,12 @@ export function CanvasModel(editor) {
 
   this.setCanvasView = (canv) => {
     if (canvasDom !== null) {
-      canvasDom.removeAttribute("dataType");
+      canvasDom.removeAttribute(editor.elemType());
       canvasDom = canv;
-      canvasDom.setAttribute("dataType", "root");
+      canvasDom.setAttribute(editor.elemType(), "root");
     } else {
       canvasDom = canv;
-      canvasDom.setAttribute("dataType", "root");
+      canvasDom.setAttribute(editor.elemType(), "root");
     }
   };
 
@@ -51,9 +48,9 @@ export function CanvasModel(editor) {
     // currentSlectedElement.style.outline = "none";
     if (this.isCanvasWidget(elem)) {
       currentSlectedElement = elem;
-     // currentSlectedElement.style.outline = "1px solid red";
+      // currentSlectedElement.style.outline = "1px solid red";
     }
-  }
+  };
 
   this.getCanvasView = () => canvasDom;
 
@@ -65,21 +62,22 @@ export function CanvasModel(editor) {
 
   this.getID = (elem) => elem.getAttribute("dataId");
 
-  this.getType = (elem) => elem.getAttribute("dataType");
+  this.getType = (elem) => elem.getAttribute(editor.elemType());
 
   //checks if the element is canvas item
   this.isCanvasWidget = (elem) => {
-    return elem.getAttribute("datatype") === "canvaswidget";
+    return elem.getAttribute(editor.elemType()) === "canvaswidget";
   };
 
   this.isRootWidget = (elem) => {
-    return elem.getAttribute("datatype") === "root";
-  }
+    return elem.getAttribute(editor.elemType()) === "root";
+  };
 
   this.canAcceptChild = (dropareaElement) => {
     const data = this.editor.getWidgetDataOf(
       dropareaElement.getAttribute("dataId")
     );
+
     return (
       data.isViewGroup &&
       (data.isMultiChilded || data.children.length === 0) &&
@@ -114,15 +112,14 @@ export function CanvasModel(editor) {
     mouseUp
   ) => {
     //timer
-     document.onpointerdown = (e) => {
+    document.onpointerdown = (e) => {
       pointerDown(e);
       // canvasDimensions = canvasDom.getBoundingClientRect();
       const elem = document.elementFromPoint(e.pageX, e.pageY);
 
-      
       timeout = window.setTimeout(() => {
-        console.log("started")
-        currentDraggingType = elem.getAttribute("dataType");
+        console.log("started");
+        currentDraggingType = elem.getAttribute(editor.elemType());
         switch (currentDraggingType) {
           case "pallette":
             isHolding = true;
@@ -131,7 +128,7 @@ export function CanvasModel(editor) {
             editor.setCurrentData(
               pallette.getDataOf(elem.getAttribute("dataKey"))
             );
-         
+
             dragStart(e);
             break;
 
@@ -150,7 +147,6 @@ export function CanvasModel(editor) {
             currentDraggingElement = null;
             break;
         }
-         
       }, longPressDuration);
     };
 
@@ -165,12 +161,11 @@ export function CanvasModel(editor) {
           }
         } else {
           if (entered === true) {
-
             dragExit(e);
             entered = false;
           }
         }
-    
+
         dragMove(e);
       }
     };
@@ -201,7 +196,7 @@ export function CanvasModel(editor) {
       }
       isHolding = false;
       entered = false;
-      this.selectElement(e.target)
+      this.selectElement(e.target);
       mouseUp(e);
       window.clearTimeout(timeout);
     };

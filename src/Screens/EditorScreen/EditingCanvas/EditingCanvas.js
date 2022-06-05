@@ -12,18 +12,19 @@ export function EditingCanvas(props) {
   const canvasRef = useRef();
   const updateSidebarList = useSetRecoilState(propertyListState);
   const updateDragShadowPosition = useSetRecoilState(dragShadowPositionState);
+  var previousWidget;
 
-  const highlightElement = (classname) => {
-    const previousWidget = canvas.getCurrentSelectedElement();
-    if (previousWidget !== undefined) {
+  const highlightElement = (elem , classname) => {
+    if (previousWidget !== undefined && elem !== previousWidget) {
       if (previousWidget.classList.contains(classname) === true) {
-        previousWidget.classList.remove(classname);
+         previousWidget.classList.remove(classname);
+         console.log(previousWidget);
       }
-      previousWidget.classList.add(classname);
-    }
       
+      previousWidget = elem;
+      elem.classList.add(classname);
+    }
    
-
     //detect the variable change
   };
 
@@ -40,28 +41,20 @@ export function EditingCanvas(props) {
       //PointerDown
       function (e) {},
 
+
       //Pointer Move
       function (e) {
         currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
         if (
-          canvas.isPointerInsideCanvas(e.pageX, e.pageY) &&
-          canvas.isHolding() === false
+          canvas.isPointerInsideCanvas(e.pageX, e.pageY) //&&
+          // canvas.isHolding() === false
         ) {
-          highlightElement(style.hover);
-          //   if (
-          //     !currentPointingElement.classList.contains(style.hover)
-          //   ) {
-          //     currentPointingElement.classList.add(style.hover);
-          //   }
-          //   //detect the variable change
-          //   if (currentPointingElement !== previousWidget) {
-          //     console.log("changed");
-          //     if (previousWidget !== undefined)
-          //       previousWidget.classList.remove(style.hover);
-          //     previousWidget = currentPointingElement;
-          //   }
+          highlightElement(currentPointingElement ,  style.hover);
+         
         }
       },
+
+
       //DragStart
       function (e) {
         // editor.setCurrentElement(document.elementFromPoint(e.pageX , e.pageY));
@@ -69,66 +62,47 @@ export function EditingCanvas(props) {
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
+
       //DragMove
       function (e) {
         dropTarget = document.elementFromPoint(e.pageX, e.pageY);
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
+
       //Drag Enter
       function (e) {},
+
 
       //Drag Over
       function (e) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
-        if (droparea === canvas.getCanvasView()) {
-          //  canvas.highlightElement(droparea, style.highlightWidget);
-          // if (droparea.classList.contains(style.highlightWidget) !== true) {
-          // droparea.classList.add(style.highlightWidget);
-          // }
-          // //detect the variable change
-          // if (droparea !== previousWidget) {
-          //   console.log("changed");
-          //   if (previousWidget !== undefined)
-          //     previousWidget.classList.remove(style.highlightWidget);
-          //   previousWidget = droparea;
-          // }
-        } else {
-          const canaccept = canvas.canAcceptChild(droparea);
-          // console.log(canaccept);
-          if (canaccept) {
-            // if (droparea.classList.contains(style.highlightWidget) !== true) {
-            // droparea.classList.add(style.highlightWidget);
-            // }
-            // // //detect the variable change
-            // if (droparea !== previousWidget) {
-            //   console.log("changed");
-            //   if (previousWidget !== undefined)
-            //     previousWidget.classList.toggle(style.highlightWidget);
-            //   previousWidget = droparea;
-            // }
-            highlightElement(style.hover);
-          }
+        if (droparea !== canvas.getCanvasView()) {
+           const canaccept = canvas.canAcceptChild(droparea);
+          
+          if(canaccept) highlightElement(droparea , style.highlightElement);
         }
-
         if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
           dummy.predictDropArea(e.pageX, e.pageY);
         }
       },
 
+
       //Drag Exit
       function (e) {},
 
+
       //Drop
       function (e) {},
+
 
       //MouseUp
       function (e) {
         updateDragShadowPosition({ x: 0, y: 0, isVisible: false });
       }
+
     );
-    // editor.renderEelements(canvas);
   });
 
   return (

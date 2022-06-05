@@ -4,15 +4,15 @@ import VanillaPlugin from "../Plugins/EditorPlugins/VanillaEditor";
 import { Editor } from "./Editor";
 import { Pallette } from "./Pallette";
 import Commands from "./Commands";
-import { CanvasModel } from "./CanvasModel";
+import { DragProcessor } from "./DragProcessor";
 import { VanillaParser } from "../Plugins/ParserPlugins/VanillaParser";
 
 export const editor = new Editor();
-export const canvas = new CanvasModel(editor);
+export const canvas = new DragProcessor(editor);
 export const COMMANDS = new Commands(editor);
 
 //plugins
-const pluginmanager = new PluginManager(editor , canvas);
+const pluginmanager = new PluginManager(editor, canvas);
 
 const vanillaPlugin = pluginmanager.registerEditorPlugin({
   id: "plugin1",
@@ -39,11 +39,11 @@ pallette.setPalletteData({
     attrs: {},
     debugAttrs: {},
     styles: {
-      "padding": "10px",
+      padding: "10px",
       "min-height": "30px",
-      "height": "fit-content",
+      height: "fit-content",
       "background-color": "#08c893",
-      "color": "white",
+      color: "white",
     },
     content: "",
     isViewGroup: true,
@@ -59,8 +59,8 @@ pallette.setPalletteData({
       // disabled: "true",
     },
     styles: {
-      "color": "green",
-      "padding": "10px",
+      color: "green",
+      padding: "10px",
     },
     content: "button",
     isViewGroup: false,
@@ -72,15 +72,15 @@ pallette.setPalletteData({
   input: {
     tag: "input",
     attrs: {
-      "type": "password",
-      "active": false,
-      "placeholder": "Type here..",
+      type: "password",
+      active: false,
+      placeholder: "Type here..",
     },
     debugAttrs: {
-      "disabled": "true",
+      disabled: "true",
     },
     styles: {
-      "padding": "10px",
+      padding: "10px",
     },
     content: "Hello",
     isViewGroup: false,
@@ -92,14 +92,14 @@ pallette.setPalletteData({
   image: {
     tag: "img",
     attrs: {
-      "src": "https://img.icons8.com/color-glass/48/000000/image.png",
-      "alt": "",
+      src: "https://img.icons8.com/color-glass/48/000000/image.png",
+      alt: "",
     },
     debugAttrs: {
-      "disabled": "true",
+      disabled: "true",
     },
     styles: {
-      "padding": "10px",
+      padding: "10px",
     },
     content: "Hello",
     isViewGroup: false,
@@ -111,7 +111,7 @@ pallette.setPalletteData({
   h1: {
     tag: "h1",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",
@@ -127,7 +127,7 @@ pallette.setPalletteData({
   h2: {
     tag: "h2",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",
@@ -143,7 +143,7 @@ pallette.setPalletteData({
   h3: {
     tag: "h3",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",
@@ -159,7 +159,7 @@ pallette.setPalletteData({
   h4: {
     tag: "h4",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",
@@ -175,7 +175,7 @@ pallette.setPalletteData({
   h5: {
     tag: "h5",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",
@@ -191,7 +191,7 @@ pallette.setPalletteData({
   h6: {
     tag: "h6",
     attrs: {
-      "contenteditable": "true",
+      contenteditable: "true",
     },
     debugAttrs: {
       //   disabled: "true",

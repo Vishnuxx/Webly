@@ -1,9 +1,10 @@
 import { Image, Pane, Text } from "evergreen-ui";
+import { editor } from "../../../Models/Models";
 import { widgetlist } from "../../../PalletteItemsData/widgetList";
 
 export function WidgetsPane(props) {
   return (
-    <Pane width="150px" padding='10px'>
+    <Pane width="150px" padding="10px">
       <WidgetsPallette></WidgetsPallette>
     </Pane>
   );
@@ -24,7 +25,7 @@ function WidgetsPallette(props) {
           );
         } else {
           return (
-            <h4 padding="0" margin='0' key={index}>
+            <h4 padding="0" margin="0" key={index}>
               {elem.label}
             </h4>
           );
@@ -35,9 +36,10 @@ function WidgetsPallette(props) {
 }
 
 function PalletteItem(props) {
+  const prop = { [editor.elemType()]: "pallette" };
   return (
     <Pane
-      datatype="pallette"
+      {...prop}
       datakey={props.datakey}
       userSelect="none"
       padding="0"
