@@ -1,5 +1,5 @@
 import { Image, Pane, Text } from "evergreen-ui";
-import { editor } from "../../../Models/Models";
+import { editor } from "../../../Models/Main";
 import { widgetlist } from "../../../PalletteItemsData/widgetList";
 
 export function WidgetsPane(props) {

@@ -6,10 +6,12 @@ import { Pallette } from "./Pallette";
 import Commands from "./Commands";
 import { DragProcessor } from "./DragProcessor";
 import { VanillaParser } from "../Plugins/ParserPlugins/VanillaParser";
+import { DataOperations } from "./DataOperations";
 
 export const editor = new Editor();
+export const DataOperator = new DataOperations(editor)
 export const canvas = new DragProcessor(editor);
-export const COMMANDS = new Commands(editor);
+export const COMMANDS = new Commands(editor , DataOperator);
 
 //plugins
 const pluginmanager = new PluginManager(editor, canvas);

@@ -1,23 +1,26 @@
 import { Command } from "./Command";
 
 export class MoveElementCommand extends Command {
-  constructor(editor, elem, destination, index) {
+  constructor(editor, dataOperator , elem , destination, index) {
     super();
+    this.dataOperator = dataOperator; //for data operations
+
     this.editor = editor;
     this.element = elem;
+    this.elementId = this.element.getAttribute("dataId");
+    
+
+    this.index = index;
+
+    this.newParent = destination;
+    this.newParentId = this.newParent.getAttribute("dataId");
+    this.newParentType = this.newParent.getAttribute(editor.elemType());
 
     this.oldParent = elem.parentElement;
-    this.newParent = destination;
-
     this.oldIndex = [...this.oldParent.children].indexOf(this.element);
-    this.index = index;
-    
-    this.elementId = this.element.getAttribute("dataId");
     this.oldParentId = this.oldParent.getAttribute("dataId");
-    this.newParentId = this.newParent.getAttribute("dataId");
-
     this.oldParentType = this.oldParent.getAttribute(editor.elemType());
-    this.newParentType = this.newParent.getAttribute(editor.elemType());
+    
   }
 
   _moveElement() {
@@ -30,6 +33,7 @@ export class MoveElementCommand extends Command {
     } else {
       this.newParent.appendChild(this.element);
     }
+    this.element.style.display = "block";
   }
 
   _undoElement() {
@@ -44,8 +48,9 @@ export class MoveElementCommand extends Command {
     this.element.remove();
      this.newParent.insertBefore(
        this.element,
-       this.newParent.children[this.oldIndex]
+       this.newParent.children[this.index]
      );
+     this.element.style.display = "block";
   }
 
   _moveData() {
@@ -54,7 +59,7 @@ export class MoveElementCommand extends Command {
       case "canvaswidget":
 
         if (this.newParentType === "canvaswidget") {
-          this.editor.moveChild(
+          this.dataOperator.moveChild(
             this.elementId,
             this.oldParentId,
             this.newParentId,
@@ -64,7 +69,7 @@ export class MoveElementCommand extends Command {
         } 
 
         if (this.newParentType === "root") {
-          this.editor.moveChildToRoot(this.elementId, this.oldParentId, this.index);
+          this.dataOperator.moveChildToRoot(this.elementId, this.oldParentId, this.index);
           return;
         }
         break;
@@ -72,7 +77,7 @@ export class MoveElementCommand extends Command {
       case "root":
 
         if (this.newParentType === "canvaswidget") {
-          this.editor.moveChildFromRoot(
+          this.dataOperator.moveChildFromRoot(
             this.elementId,
             this.newParentId,
             this.index
@@ -80,6 +85,7 @@ export class MoveElementCommand extends Command {
           return;
         } 
         if (this.newParentType === "root") {
+          this.dataOperator.moveFromRootToRoot(this.elementId, this.index);
           return;
         }
         break;
@@ -93,16 +99,33 @@ export class MoveElementCommand extends Command {
     switch(this.newParentType) {
         case "canvaswidget":
              if (this.oldParentType === "canvaswidget") {
-               this.editor.moveChild(this.elementId , this.newParentId , this.oldParentId , this.oldIndex)
+               this.dataOperator.moveChild(
+                 this.elementId,
+                 this.newParentId,
+                 this.oldParentId,
+                 this.oldIndex
+               );
              } else if (this.oldParentType === "root") {
-               this.editor.moveChildToRoot(this.elementId , this.newParentId , this.oldIndex)
+               this.dataOperator.moveChildToRoot(
+                 this.elementId,
+                 this.newParentId,
+                 this.oldIndex
+               );
              }
             break;
 
         case "root":
             if (this.oldParentType === "canvaswidget") {
-              this.editor.moveChildFromRoot(this.elementId , this.oldParentId , this.oldIndex)
+              this.dataOperator.moveChildFromRoot(
+                this.elementId,
+                this.oldParentId,
+                this.oldIndex
+              );
             } else if (this.newParentType === "root") {
+              this.dataOperator.moveFromRootToRoot(
+                this.elementId,
+                this.oldIndex
+              );
             }
             break;
         
@@ -115,14 +138,14 @@ export class MoveElementCommand extends Command {
       switch (this.oldParentType) {
         case "canvaswidget":
           if (this.newParentType === "canvaswidget") {
-            this.editor.moveChild(
+            this.dataOperator.moveChild(
               this.elementId,
               this.oldParentId,
               this.newParentId,
               this.index
             );
           } else if (this.newParentType === "root") {
-            this.editor.moveChildToRoot(
+            this.dataOperator.moveChildToRoot(
               this.elementId,
               this.oldParentId,
               this.index
@@ -132,12 +155,14 @@ export class MoveElementCommand extends Command {
 
         case "root":
           if (this.newParentType === "canvaswidget") {
-            this.editor.moveChildFromRoot(
+            this.dataOperator.moveChildFromRoot(
               this.elementId,
               this.newParentId,
               this.index
             );
           } else if (this.newParentType === "root") {
+             this.dataOperator.moveFromRootToRoot(this.elementId, this.index);
+             console.log("kds")
           }
           break;
 

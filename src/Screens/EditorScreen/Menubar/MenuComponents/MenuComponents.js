@@ -1,6 +1,6 @@
 import { Pane, RedoIcon, UndoIcon } from "evergreen-ui";
 import { MenuOptionButton } from "../../../../Components/MenuOptionButton";
-import { editor } from "../../../../Models/Models";
+import { editor } from "../../../../Models/Main";
 
 export function UndoRedoButtons(props) {
    

@@ -1,9 +1,10 @@
 import { Command } from "./Command";
 
 export class AddElementCommand extends Command {
-  constructor(editor, dropzone, index) {
+  constructor(editor , dataOperator, dropzone, index) {
     super();
     this.editor = editor;
+    this.dataOperator = dataOperator;
     this.dropzone = dropzone;
     this.index = index;
     this.data = {};
@@ -11,7 +12,33 @@ export class AddElementCommand extends Command {
     this.element = null;
   }
 
+  _executeElement() {
+
+  }
+
+  _undoElement() {
+
+  }
+
+  _redoElement() {
+
+  }
+
+  _executeData() {
+
+  }
+
+  _undoData() {
+
+  }
+
+  _redoData() {
+
+  }
+
   execute() {
+
+    this._executeElement()
     //create new widget
     const widgetObj = this.editor
       .getActiveEditorPlugin()
@@ -41,13 +68,13 @@ export class AddElementCommand extends Command {
 
       if (dropAreaIsCanvasWidget) {
         //data
-        this.editor.addChild(
+        this.dataOperator.addChild(
           dropAreaId,
           this.widgetUID,
           this.dropzone.children[this.index]
         );
       } else if (dropAreaIsRoot) {
-        this.editor.addToRoot(this.widgetUID);
+        this.dataOperator.addToRoot(this.widgetUID);
       }
     } else {
       //element
@@ -55,9 +82,9 @@ export class AddElementCommand extends Command {
 
       //data
       if (dropAreaIsCanvasWidget) {
-        this.editor.addChild(dropAreaId, this.widgetUID);
+        this.dataOperator.addChild(dropAreaId, this.widgetUID);
       } else if (dropAreaIsRoot) {
-        this.editor.addToRoot(this.widgetUID);
+        this.dataOperator.addToRoot(this.widgetUID);
       }
     }
 
@@ -79,7 +106,7 @@ export class AddElementCommand extends Command {
 
     if (dropAreaIsCanvasWidget) {
 
-      this.editor.removeChild(dropAreaId, this.widgetUID);
+      this.dataOperator.removeChild(dropAreaId, this.widgetUID);
       
       // this.editor
       //   .getWidgetDataOf(dropAreaId)
@@ -90,7 +117,7 @@ export class AddElementCommand extends Command {
 
     } else if (dropAreaIsRoot) {
 
-      this.editor.removeFromRoot(this.widgetUID);
+      this.dataOperator.removeFromRoot(this.widgetUID);
 
     }
      console.log(this.editor.getAllWidgetDatas());
@@ -109,16 +136,18 @@ export class AddElementCommand extends Command {
 
     if (dropAreaIsCanvasWidget) {
 
-       this.editor.addChild(
+       this.dataOperator.addChild(
          dropAreaId,
          this.widgetUID,
          this.dropzone.children[
-           this.index !== undefined ? this.index : this.dropzone.children.length - 1
+           this.index !== undefined
+             ? this.index
+             : this.dropzone.children.length - 1
          ]
        );
         
     } else if(dropAreaIsRoot) {
-      this.editor.addToRoot(this.widgetUID)
+      this.dataOperator.addToRoot(this.widgetUID);
     }
 
     this.dropzone.insertBefore(

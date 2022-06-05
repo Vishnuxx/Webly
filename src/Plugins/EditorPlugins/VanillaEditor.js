@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { editor } from "../../Models/Models";
+import { editor } from "../../Models/Main";
 import EditorPluginInterface from "./EditorPlugin";
 
 export default class VanillaPlugin extends EditorPluginInterface {

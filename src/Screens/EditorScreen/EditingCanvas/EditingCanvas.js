@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { Dummy } from "../../../Models/Dummy";
-import { canvas, COMMANDS, editor } from "../../../Models/Models";
+import { canvas, COMMANDS, editor } from "../../../Models/Main";
 import {
   dragShadowPositionState,
   propertyListState,
@@ -58,7 +58,6 @@ export function EditingCanvas(props) {
       //DragStart
       function (e) {
         // editor.setCurrentElement(document.elementFromPoint(e.pageX , e.pageY));
-
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
@@ -79,7 +78,7 @@ export function EditingCanvas(props) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
         if (droparea !== canvas.getCanvasView()) {
-           const canaccept = canvas.canAcceptChild(droparea);
+          const canaccept = canvas.canAcceptChild(droparea);
           
           if(canaccept) highlightElement(droparea , style.highlightElement);
         }

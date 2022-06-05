@@ -1,6 +1,6 @@
 import { Button, Paragraph, SideSheet, Text } from "evergreen-ui";
 import { Fragment, useRef, useState } from "react";
-import { canvas, editor } from "../../../Models/Models";
+import { canvas, editor } from "../../../Models/Main";
 import style from "./extensionpanel.module.css";
 
 export function ExtensionPanel(props) {

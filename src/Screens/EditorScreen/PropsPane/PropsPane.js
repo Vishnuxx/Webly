@@ -1,7 +1,7 @@
 import { Pane, Text, TextInput } from "evergreen-ui";
 import { useState } from "react";
 import { useRecoilValue } from "recoil";
-import { editor } from "../../../Models/Models";
+import { editor } from "../../../Models/Main";
 import { propertyListState } from "../../../State/EditorState";
 
 export function PropsPane(props) {

@@ -1,5 +1,5 @@
 import { Dummy } from "./Dummy";
-import { COMMANDS, pallette } from "./Models";
+import { COMMANDS, pallette } from "./Main";
 import { Utils } from "./Utils";
 
 // Widget           dataType
@@ -114,11 +114,9 @@ export function DragProcessor(editor) {
     //timer
     document.onpointerdown = (e) => {
       pointerDown(e);
-      // canvasDimensions = canvasDom.getBoundingClientRect();
       const elem = document.elementFromPoint(e.pageX, e.pageY);
 
       timeout = window.setTimeout(() => {
-        console.log("started");
         currentDraggingType = elem.getAttribute(editor.elemType());
         switch (currentDraggingType) {
           case "pallette":
@@ -141,6 +139,7 @@ export function DragProcessor(editor) {
             );
             console.log(currentDraggingElement);
             dragStart(e);
+            currentDraggingElement.style.display = 'none';
             break;
 
           default:
@@ -165,7 +164,6 @@ export function DragProcessor(editor) {
             entered = false;
           }
         }
-
         dragMove(e);
       }
     };
