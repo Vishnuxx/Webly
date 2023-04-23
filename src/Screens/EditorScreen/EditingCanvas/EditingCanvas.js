@@ -1,7 +1,7 @@
 import { useEffect, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { Dummy } from "../../../Models/Dummy";
-import { canvas, COMMANDS, editor } from "../../../Models/Main";
+import { dragProcessor, COMMANDS, editor } from "../../../Models/Main";
 import {
   dragShadowPositionState,
   propertyListState,
@@ -10,50 +10,49 @@ import style from "./editingcanvas.module.css";
 
 export function EditingCanvas(props) {
   const canvasRef = useRef();
-  const updateSidebarList = useSetRecoilState(propertyListState);
+  //const updateSidebarList = useSetRecoilState(propertyListState);
   const updateDragShadowPosition = useSetRecoilState(dragShadowPositionState);
   var previousWidget;
 
-  const highlightElement = (elem , classname) => {
+  const highlightElement = (elem, classname) => {
     if (previousWidget !== undefined && elem !== previousWidget) {
       if (previousWidget.classList.contains(classname) === true) {
-         previousWidget.classList.remove(classname);
-         console.log(previousWidget);
+        previousWidget.classList.remove(classname);
+        console.log(previousWidget);
       }
-      
+
       previousWidget = elem;
       elem.classList.add(classname);
     }
-   
+
     //detect the variable change
   };
 
   useEffect(() => {
-    canvas.setCanvasView(canvasRef.current);
+    dragProcessor.setCanvasView(canvasRef.current);
   });
 
   useEffect(() => {
     var dropTarget;
     var previousWidget;
     var currentPointingElement; //shows highlighted on cursor in
-    const dummy = new Dummy(canvas);
-    canvas.initDragControls(
+    const dummy = new Dummy(dragProcessor);
+
+
+    dragProcessor.initDragControls(
       //PointerDown
       function (e) {},
-
 
       //Pointer Move
       function (e) {
         currentPointingElement = document.elementFromPoint(e.pageX, e.pageY);
         if (
-          canvas.isPointerInsideCanvas(e.pageX, e.pageY) //&&
+          dragProcessor.isPointerInsideCanvas(e.pageX, e.pageY) //&&
           // canvas.isHolding() === false
         ) {
-          highlightElement(currentPointingElement ,  style.hover);
-         
+          //highlightElement(currentPointingElement, style.hover);
         }
       },
-
 
       //DragStart
       function (e) {
@@ -61,46 +60,40 @@ export function EditingCanvas(props) {
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
-
       //DragMove
       function (e) {
+            
         dropTarget = document.elementFromPoint(e.pageX, e.pageY);
         updateDragShadowPosition({ x: e.pageX, y: e.pageY, isVisible: true });
       },
 
-
       //Drag Enter
       function (e) {},
-
 
       //Drag Over
       function (e) {
         //get the target drop widget inside the canvas
         const droparea = document.elementFromPoint(e.pageX, e.pageY);
-        if (droparea !== canvas.getCanvasView()) {
-          const canaccept = canvas.canAcceptChild(droparea);
+        if (droparea !== dragProcessor.getCanvasView()) {
           
-          if(canaccept) highlightElement(droparea , style.highlightElement);
+          const canaccept = dragProcessor.canAcceptChild(droparea);
+          if (canaccept) highlightElement(droparea, style.highlightElement);
         }
-        if (canvas.isPointerInsideCanvas(e.pageX, e.pageY)) {
+        if (dragProcessor.isPointerInsideCanvas(e.pageX, e.pageY)) {
           dummy.predictDropArea(e.pageX, e.pageY);
         }
       },
 
-
       //Drag Exit
       function (e) {},
 
-
       //Drop
       function (e) {},
-
 
       //MouseUp
       function (e) {
         updateDragShadowPosition({ x: 0, y: 0, isVisible: false });
       }
-
     );
   });
 

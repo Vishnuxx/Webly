@@ -12,6 +12,7 @@ export function DragShadowLayer(props) {
         top: "0",
         padding: "0",
         pointerEvents: "none",
+        zIndex:11
       }}
     >
       <DragShadow />

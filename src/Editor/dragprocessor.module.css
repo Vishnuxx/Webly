@@ -1,0 +1,9 @@
+.selected {
+    outline: 2px solid orangered;
+    outline-offset: -2px;
+}
+
+.highlight {
+     outline: 1px solid blue;
+    outline-offset: -1px;
+}

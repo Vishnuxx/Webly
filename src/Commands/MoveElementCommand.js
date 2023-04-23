@@ -1,6 +1,8 @@
 import { Command } from "./Command";
 
 export class MoveElementCommand extends Command {
+
+
   constructor(editor, dataOperator , elem , destination, index) {
     super();
     this.dataOperator = dataOperator; //for data operations
@@ -9,7 +11,6 @@ export class MoveElementCommand extends Command {
     this.element = elem;
     this.elementId = this.element.getAttribute("dataId");
     
-
     this.index = index;
 
     this.newParent = destination;
@@ -178,13 +179,12 @@ export class MoveElementCommand extends Command {
 
   undo() {
       this._undoData();
-      this._undoElement()
+      this._undoElement();
       
   }
 
   redo() {
       this._redoData();
-      this._redoElement()
-      
+      this._redoElement();
   }
 }

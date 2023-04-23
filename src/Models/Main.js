@@ -1,20 +1,20 @@
 import PluginManager from "./PluginManager";
 import VanillaPlugin from "../Plugins/EditorPlugins/VanillaEditor";
 
-import { Editor } from "./Editor";
+import { Editor } from "../Editor/Editor";
 import { Pallette } from "./Pallette";
 import Commands from "./Commands";
-import { DragProcessor } from "./DragProcessor";
+import { DragProcessor } from "../Editor/DragProcessor";
 import { VanillaParser } from "../Plugins/ParserPlugins/VanillaParser";
-import { DataOperations } from "./DataOperations";
+import { DataOperations } from "../API/DataOperations";
 
 export const editor = new Editor();
-export const DataOperator = new DataOperations(editor)
-export const canvas = new DragProcessor(editor);
-export const COMMANDS = new Commands(editor , DataOperator);
+export const DataOperation = new DataOperations(editor)
+export const dragProcessor = new DragProcessor(editor);
+export const COMMANDS = new Commands(editor , DataOperation);
 
 //plugins
-const pluginmanager = new PluginManager(editor, canvas);
+const pluginmanager = new PluginManager(editor, dragProcessor);
 
 const vanillaPlugin = pluginmanager.registerEditorPlugin({
   id: "plugin1",
@@ -84,7 +84,7 @@ pallette.setPalletteData({
     styles: {
       padding: "10px",
     },
-    content: "Hello",
+    content: "",
     isViewGroup: false,
     isMultiChilded: false,
     acceptableTypes: [],
@@ -103,7 +103,7 @@ pallette.setPalletteData({
     styles: {
       padding: "10px",
     },
-    content: "Hello",
+    content: "",
     isViewGroup: false,
     isMultiChilded: false,
     acceptableTypes: [],

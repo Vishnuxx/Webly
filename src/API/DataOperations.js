@@ -1,3 +1,5 @@
+// API for editing and manipulating widget datas
+
 export function DataOperations(editor) {
 
     const widgetData = editor.getAllWidgetDatas();
